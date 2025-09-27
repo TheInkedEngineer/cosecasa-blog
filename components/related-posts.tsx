@@ -1,7 +1,11 @@
 import Link from "next/link"
-import { Card, CardContent } from "@/components/ui/card"
+
 import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Title } from "@/components/ui/title"
+import { spacing, typography } from "@/lib/design-system"
 import type { Post } from "@/lib/markdown"
+import { cn } from "@/lib/utils"
 
 interface RelatedPostsProps {
   posts: Post[]
@@ -13,13 +17,15 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
   }
 
   return (
-    <section className="py-16 px-4 bg-muted/30">
-      <div className="container mx-auto max-w-6xl">
-        <h2 className="text-3xl font-serif text-center mb-12 text-foreground">Articoli correlati</h2>
+    <section className={cn(spacing.section, 'bg-muted/30')}>
+      <div className={cn(spacing.containerWide)}>
+        <Title as="h2" align="center" margin="lg">
+          Articoli correlati
+        </Title>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.map((post) => (
             <Link key={post.slug} href={`/${post.metadata.category}/${post.slug}`}>
-              <Card className="group hover:shadow-lg transition-all duration-300 border-0 bg-background h-full">
+              <Card interactive className="group border-0 bg-background h-full">
                 <CardContent className="p-0">
                   {post.metadata.image && (
                     <div className="aspect-[4/3] overflow-hidden rounded-t-lg">
@@ -43,10 +49,15 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
                         })}
                       </span>
                     </div>
-                    <h3 className="text-lg font-serif mb-2 text-foreground group-hover:text-primary transition-colors text-balance">
+                    <Title
+                      as="h3"
+                      variant="card"
+                      margin="sm"
+                      className="group-hover:text-brand-primary transition-colors"
+                    >
                       {post.metadata.title}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed text-sm line-clamp-3">
+                    </Title>
+                    <p className={cn(typography.bodyMuted, 'text-sm line-clamp-3')}>
                       {post.metadata.excerpt}
                     </p>
                   </div>

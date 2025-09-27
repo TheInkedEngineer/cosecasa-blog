@@ -1,18 +1,26 @@
 import Link from "next/link"
-import { Card, CardContent } from "@/components/ui/card"
+
 import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Title } from "@/components/ui/title"
+import { spacing, typography } from "@/lib/design-system"
 import { getFeaturedPosts } from "@/lib/markdown"
+import { cn } from "@/lib/utils"
 
 export function FeaturedPosts() {
   const featuredPosts = getFeaturedPosts(3)
 
   if (featuredPosts.length === 0) {
     return (
-      <section className="py-16 px-4">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-serif text-center mb-12 text-foreground">Articoli in evidenza</h2>
-          <div className="text-center py-12">
-            <p className="text-muted-foreground text-lg">Nessun articolo in evidenza al momento.</p>
+      <section className={spacing.section}>
+        <div className={cn(spacing.containerWide, 'text-center')}>
+          <Title as="h2" align="center" margin="lg">
+            Articoli in evidenza
+          </Title>
+          <div className="py-12">
+            <p className={cn(typography.sectionSubtitle, 'text-center')}>
+              Nessun articolo in evidenza al momento.
+            </p>
           </div>
         </div>
       </section>
@@ -20,13 +28,15 @@ export function FeaturedPosts() {
   }
 
   return (
-    <section className="py-16 px-4">
-      <div className="container mx-auto">
-        <h2 className="text-3xl font-serif text-center mb-12 text-foreground">Articoli in evidenza</h2>
+    <section className={spacing.section}>
+      <div className={cn(spacing.containerWide)}>
+        <Title as="h2" align="center" margin="lg">
+          Articoli in evidenza
+        </Title>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {featuredPosts.map((post) => (
             <Link key={post.slug} href={`/${post.metadata.category}/${post.slug}`}>
-              <Card className="group hover:shadow-lg transition-all duration-300 border-0 bg-background h-full">
+              <Card interactive className="group border-0 bg-background h-full">
                 <CardContent className="p-0">
                   {post.metadata.image && (
                     <div className="aspect-[4/3] overflow-hidden rounded-t-lg">
@@ -50,9 +60,14 @@ export function FeaturedPosts() {
                         })}
                       </span>
                     </div>
-                    <h3 className="text-xl font-serif mb-3 text-foreground group-hover:text-primary transition-colors text-balance">
+                    <Title
+                      as="h3"
+                      variant="card"
+                      margin="sm"
+                      className="group-hover:text-brand-primary transition-colors"
+                    >
                       {post.metadata.title}
-                    </h3>
+                    </Title>
                     <p className="text-muted-foreground leading-relaxed text-sm flex-grow">{post.metadata.excerpt}</p>
                     <div className="flex flex-wrap gap-1 mt-4">
                       {post.metadata.tags.slice(0, 3).map((tag) => (

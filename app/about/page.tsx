@@ -1,15 +1,20 @@
-import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { Header } from "@/components/header"
+import { Title } from "@/components/ui/title"
+import { spacing, typography } from "@/lib/design-system"
+import { cn } from "@/lib/utils"
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main>
-        <section className="py-16 px-4">
-          <div className="container mx-auto max-w-4xl">
+        <section className={spacing.section}>
+          <div className={cn(spacing.containerNarrow)}>
             <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-serif mb-6 text-foreground">Chi sono</h1>
+              <Title as="h1" align="center" margin="sm">
+                Chi sono
+              </Title>
               <div className="w-32 h-32 mx-auto mb-8 rounded-full overflow-hidden">
                 <img
                   src="/elegant-italian-woman-portrait.jpg"
@@ -25,7 +30,7 @@ export default function AboutPage() {
               prose-p:text-foreground prose-p:leading-relaxed
               prose-a:text-primary prose-a:no-underline hover:prose-a:underline"
             >
-              <p className="text-xl text-center text-muted-foreground mb-8 text-balance">
+              <p className={cn(typography.sectionSubtitle, 'text-center mb-8 text-balance')}>
                 Ciao, sono Maria. Benvenuti nel mio piccolo angolo di internet dove condivido le mie passioni per la
                 bellezza, l'arte e la vita quotidiana.
               </p>

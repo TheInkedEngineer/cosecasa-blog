@@ -1,5 +1,9 @@
 import Link from "next/link"
+
 import { Card, CardContent } from "@/components/ui/card"
+import { Title } from "@/components/ui/title"
+import { spacing, typography } from "@/lib/design-system"
+import { cn } from "@/lib/utils"
 
 const categories = [
   {
@@ -24,13 +28,15 @@ const categories = [
 
 export function CategoryGrid() {
   return (
-    <section className="py-16 px-4 bg-muted/30">
-      <div className="container mx-auto">
-        <h2 className="text-3xl font-serif text-center mb-12 text-foreground">Esplora le categorie</h2>
+    <section className={cn(spacing.section, 'bg-muted/30')}>
+      <div className={cn(spacing.containerWide)}>
+        <Title as="h2" align="center" margin="lg">
+          Esplora le categorie
+        </Title>
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {categories.map((category) => (
             <Link key={category.title} href={category.href}>
-              <Card className="group hover:shadow-lg transition-all duration-300 border-0 bg-background">
+              <Card interactive className="group border-0 bg-background">
                 <CardContent className="p-0">
                   <div className="aspect-[4/3] overflow-hidden rounded-t-lg">
                     <img
@@ -40,10 +46,15 @@ export function CategoryGrid() {
                     />
                   </div>
                   <div className="p-6">
-                    <h3 className="text-2xl font-serif mb-2 text-primary group-hover:text-foreground transition-colors">
+                    <Title
+                      as="h3"
+                      variant="card"
+                      margin="sm"
+                      className="text-brand-primary group-hover:text-foreground transition-colors"
+                    >
                       {category.title}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed">{category.description}</p>
+                    </Title>
+                    <p className={cn(typography.bodyMuted)}>{category.description}</p>
                   </div>
                 </CardContent>
               </Card>

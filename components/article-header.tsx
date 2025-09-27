@@ -1,4 +1,7 @@
 import { Badge } from "@/components/ui/badge"
+import { Title } from "@/components/ui/title"
+import { spacing } from "@/lib/design-system"
+import { cn } from "@/lib/utils"
 
 interface ArticleHeaderProps {
   title: string
@@ -15,13 +18,15 @@ export function ArticleHeader({ title, image, category }: ArticleHeaderProps) {
           <div className="absolute inset-0 bg-black/20" />
         </div>
       )}
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className={image ? "relative -mt-32 z-10" : ""}>
-          <div className={`${image ? "bg-background/95 backdrop-blur-sm rounded-lg p-8 shadow-lg" : ""}`}>
+      <div className={cn(spacing.containerNarrow, 'px-4 py-8')}>
+        <div className={image ? 'relative -mt-32 z-10' : ''}>
+          <div className={cn(image && 'bg-background/95 backdrop-blur-sm rounded-lg p-8 shadow-lg')}>
             <Badge variant="secondary" className="mb-4 capitalize">
               {category}
             </Badge>
-            <h1 className="text-3xl md:text-5xl font-serif text-balance text-foreground leading-tight">{title}</h1>
+            <Title as="h1" margin="sm" className="text-balance">
+              {title}
+            </Title>
           </div>
         </div>
       </div>

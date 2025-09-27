@@ -1,7 +1,11 @@
 import Link from "next/link"
-import { Card, CardContent } from "@/components/ui/card"
+
 import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Title } from "@/components/ui/title"
+import { typography } from "@/lib/design-system"
 import type { Post } from "@/lib/markdown"
+import { cn } from "@/lib/utils"
 
 interface PostGridProps {
   posts: Post[]
@@ -20,7 +24,7 @@ export function PostGrid({ posts }: PostGridProps) {
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
       {posts.map((post) => (
         <Link key={post.slug} href={`/${post.metadata.category}/${post.slug}`}>
-          <Card className="group hover:shadow-lg transition-all duration-300 border-0 bg-background h-full">
+          <Card interactive className="group border-0 bg-background h-full">
             <CardContent className="p-0">
               {post.metadata.image && (
                 <div className="aspect-[4/3] overflow-hidden rounded-t-lg">
@@ -44,10 +48,17 @@ export function PostGrid({ posts }: PostGridProps) {
                     })}
                   </span>
                 </div>
-                <h3 className="text-xl font-serif mb-3 text-foreground group-hover:text-primary transition-colors text-balance">
+                <Title
+                  as="h3"
+                  variant="card"
+                  margin="sm"
+                  className="group-hover:text-brand-primary transition-colors"
+                >
                   {post.metadata.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed text-sm flex-grow">{post.metadata.excerpt}</p>
+                </Title>
+                <p className={cn(typography.bodyMuted, 'text-sm flex-grow')}>
+                  {post.metadata.excerpt}
+                </p>
                 <div className="flex flex-wrap gap-1 mt-4">
                   {post.metadata.tags.slice(0, 3).map((tag) => (
                     <Link key={tag} href={`/tag/${encodeURIComponent(tag)}`}>

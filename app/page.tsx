@@ -1,11 +1,15 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { articles, categories } from "@/lib/content"
+import Image from "next/image"
+
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import Image from "next/image"
+import { Title } from "@/components/ui/title"
+import { spacing, typography } from "@/lib/design-system"
+import { articles, categories } from "@/lib/content"
+import { cn } from "@/lib/utils"
 
 export default function HomePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
@@ -26,10 +30,18 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <section className="relative py-24 px-4 bg-gradient-to-b from-muted/30 to-background">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="font-serif text-5xl md:text-7xl font-bold text-foreground mb-6">cosecasa.it</h1>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+      <section
+        className={cn(
+          'relative bg-gradient-to-b from-muted/30 to-background',
+          spacing.sectionHero,
+          'py-24 md:py-28',
+        )}
+      >
+        <div className={cn(spacing.containerNarrow, 'text-center')}>
+          <Title as="h1" align="center" margin="sm">
+            cosecasa.it
+          </Title>
+          <p className={cn(typography.sectionSubtitle, 'mx-auto max-w-2xl text-balance')}>
             Storie di bellezza, cultura e vita quotidiana. Un diario personale dove condivido le mie passioni per
             l'arte, i viaggi, il design e tutto ciò che rende la vita più bella.
           </p>
@@ -55,12 +67,14 @@ export default function HomePage() {
       </section>
 
       <section className="px-4 py-12">
-        <div className="max-w-6xl mx-auto">
+        <div className={cn(spacing.containerWide)}>
           {filteredArticles.length > 0 && (
             <>
               {/* Latest section */}
               <div className="mb-12">
-                <h2 className="font-serif text-3xl font-bold mb-8 text-center">Ultimi Articoli</h2>
+                <Title as="h2" align="center" margin="lg">
+                  Ultimi Articoli
+                </Title>
 
                 {/* First article - full width */}
                 {latestArticles[0] && (
@@ -83,7 +97,9 @@ export default function HomePage() {
                             </Badge>
                           ))}
                         </div>
-                        <h3 className="font-serif text-2xl font-bold mb-3">{latestArticles[0].title}</h3>
+                        <Title as="h3" variant="card" margin="sm" className="font-bold">
+                          {latestArticles[0].title}
+                        </Title>
                         <p className="text-muted-foreground mb-4 line-clamp-3">{latestArticles[0].excerpt}</p>
                         <p className="text-sm text-muted-foreground">
                           {new Date(latestArticles[0].date).toLocaleDateString("it-IT", {
@@ -117,7 +133,9 @@ export default function HomePage() {
                               </Badge>
                             ))}
                           </div>
-                          <h3 className="font-serif text-lg font-bold mb-2">{article.title}</h3>
+                          <Title as="h4" variant="card" margin="sm" className="font-semibold">
+                            {article.title}
+                          </Title>
                           <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{article.excerpt}</p>
                           <p className="text-xs text-muted-foreground">
                             {new Date(article.date).toLocaleDateString("it-IT", {
@@ -153,7 +171,9 @@ export default function HomePage() {
                             </Badge>
                           ))}
                         </div>
-                        <h3 className="font-serif text-base font-bold mb-2">{article.title}</h3>
+                        <Title as="h4" variant="card" margin="sm" className="font-semibold text-base">
+                          {article.title}
+                        </Title>
                         <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{article.excerpt}</p>
                         <p className="text-xs text-muted-foreground">
                           {new Date(article.date).toLocaleDateString("it-IT", {
