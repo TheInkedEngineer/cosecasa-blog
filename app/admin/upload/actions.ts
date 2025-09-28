@@ -8,6 +8,12 @@ const MAX_MARKDOWN_SIZE_BYTES = 2 * 1024 * 1024 // 2MB guard for markdown upload
 const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024 // 5MB guard per image
 
 export async function uploadMarkdownAction(_: UploadState, formData: FormData): Promise<UploadState> {
+  const blobToken = process.env.BLOB_READ_WRITE_TOKEN
+
+  if (!blobToken) {
+    return { success: false, error: "Configura la variabile BLOB_READ_WRITE_TOKEN prima di procedere." }
+  }
+
   const rawTitle = formData.get("title")
   const markdownEntry = formData.get("markdown")
   const imageEntries = formData.getAll("images")
@@ -59,6 +65,7 @@ export async function uploadMarkdownAction(_: UploadState, formData: FormData): 
   try {
     const markdownBlob = await put(markdownKey, markdownEntry, {
       access: "public",
+      token: blobToken,
     })
 
     const usedNames = new Set<string>(["text.md"])
@@ -68,7 +75,7 @@ export async function uploadMarkdownAction(_: UploadState, formData: FormData): 
       const sanitizedName = sanitizeFileName(image.name, `image-${imageUploads.length + 1}`)
       const uniqueName = ensureUniqueName(sanitizedName, usedNames)
       const key = `${basePath}/${uniqueName}`
-      const blob = await put(key, image, { access: "public" })
+      const blob = await put(key, image, { access: "public", token: blobToken })
       imageUploads.push({ url: blob.url, filename: blob.pathname })
     }
 
