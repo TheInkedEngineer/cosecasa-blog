@@ -3,12 +3,7 @@
 import { del } from "@vercel/blob"
 import { revalidatePath } from "next/cache"
 
-export interface DeleteState {
-  success?: boolean
-  error?: string
-}
-
-export const initialDeleteState: DeleteState = {}
+import type { DeleteState } from "./state"
 
 export async function deleteBlobAction(_: DeleteState, formData: FormData): Promise<DeleteState> {
   const token = process.env.BLOB_READ_WRITE_TOKEN

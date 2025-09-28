@@ -6,7 +6,8 @@ import { Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 
-import { deleteBlobAction, initialDeleteState, type DeleteState } from "./actions"
+import { deleteBlobAction } from "./actions"
+import { initialDeleteState, type DeleteState } from "./state"
 
 export function DeleteBlobForm({ pathname }: { pathname: string }) {
   const [state, formAction] = useFormState<DeleteState, FormData>(deleteBlobAction, initialDeleteState)
