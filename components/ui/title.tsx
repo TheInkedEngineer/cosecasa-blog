@@ -53,7 +53,7 @@ const marginMap: Record<NonNullable<TitleProps["margin"]>, string> = {
 }
 
 const colorMap: Record<TitleColor, string> = {
-  default: "text-foreground",
+  default: "text-brand-primary",
   brand: "text-brand-primary",
   muted: "text-muted-foreground",
   inverted: "text-brand-primary-foreground",
