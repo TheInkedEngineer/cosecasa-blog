@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react"
 import { useFormState, useFormStatus } from "react-dom"
+import { useRouter } from "next/navigation"
 
 import { FileText, RefreshCcw, Trash2, X, type LucideIcon } from "lucide-react"
 
@@ -24,14 +25,38 @@ export function UploadForm() {
   const [markdownFile, setMarkdownFile] = useState<File | null>(null)
   const [images, setImages] = useState<LocalImage[]>([])
 
+  const router = useRouter()
   const markdownInputRef = useRef<HTMLInputElement | null>(null)
   const imagesRef = useRef<LocalImage[]>([])
+  const hasNavigatedRef = useRef(false)
 
   const isSuccess = hasSubmitted && state.success
   const isError = hasSubmitted && !state.success && Boolean(state.error)
   const isSubmitDisabled = !title.trim() || !markdownFile
 
   const basePath = useMemo(() => (state.slug ? `articles/${state.slug}` : undefined), [state.slug])
+
+  useEffect(() => {
+    if (!state.success || hasNavigatedRef.current) {
+      return
+    }
+
+    hasNavigatedRef.current = true
+
+    imagesRef.current.forEach((image) => URL.revokeObjectURL(image.preview))
+    setImages([])
+    setMarkdownFile(null)
+    setTitle("")
+    setHasSubmitted(false)
+    if (markdownInputRef.current) {
+      markdownInputRef.current.value = ""
+    }
+
+    const targetPrefix = state.slug ? `articles/${state.slug}/` : undefined
+    const destination = targetPrefix ? `/admin?prefix=${encodeURIComponent(targetPrefix)}` : "/admin"
+
+    void router.replace(destination)
+  }, [router, state.success, state.slug])
 
   useEffect(() => {
     imagesRef.current = images
