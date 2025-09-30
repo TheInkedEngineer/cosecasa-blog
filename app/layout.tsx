@@ -19,8 +19,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+
+  if (!publishableKey) {
+    throw new Error("NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is not set")
+  }
+
   return (
-    <ClerkProvider>
+    <ClerkProvider publishableKey={publishableKey}>
       <html lang="it">
         <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
           <Suspense fallback={null}>{children}</Suspense>
