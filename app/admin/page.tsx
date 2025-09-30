@@ -48,39 +48,37 @@ export default function AdminDashboardPage({ searchParams }: AdminDashboardPageP
   return (
     <div className="min-h-screen bg-background">
       <section className={cn(spacing.section, "py-20")}>
-        <div className={cn(spacing.containerWide, "space-y-8")}> 
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="space-y-2">
-              <div className="space-y-2">
-                <Title as="h1" margin="sm">
-                  Archivio Vercel Blob
-                </Title>
-                <p className={cn(typography.sectionSubtitle)}>
-                  Consulta cartelle e file salvati su Blob. Naviga nella struttura e rimuovi gli asset che non ti servono più.
-                </p>
-              </div>
-              <nav aria-label="Percorso corrente" className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                {breadcrumbs.map((crumb, index) => (
-                  <span key={crumb.href} className="flex items-center gap-2">
-                    {index > 0 ? <span className="text-border">/</span> : null}
-                    {crumb.active ? (
-                      <span className="font-semibold text-foreground">{crumb.label}</span>
-                    ) : (
-                      <Link href={crumb.href} className="transition hover:text-brand-primary">
-                        {crumb.label}
-                      </Link>
-                    )}
-                  </span>
-                ))}
-              </nav>
+        <div className={cn(spacing.containerWide, "space-y-8")}>
+          <div className="space-y-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <Title as="h1" margin="none">
+                Archivio Vercel Blob
+              </Title>
+              <Link
+                href="/admin/upload"
+                className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-5 py-3 text-sm font-semibold text-brand-primary-foreground shadow-sm transition hover:bg-brand-primary/90"
+              >
+                <Plus className="h-4 w-4" aria-hidden="true" />
+                Carica nuovo
+              </Link>
             </div>
-            <Link
-              href="/admin/upload"
-              className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-5 py-3 text-sm font-semibold text-brand-primary-foreground shadow-sm transition hover:bg-brand-primary/90"
-            >
-              <Plus className="h-4 w-4" aria-hidden="true" />
-              Carica nuovo
-            </Link>
+            <p className={cn(typography.sectionSubtitle)}>
+              Consulta cartelle e file salvati su Blob. Naviga nella struttura e rimuovi gli asset che non ti servono più.
+            </p>
+            <nav aria-label="Percorso corrente" className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+              {breadcrumbs.map((crumb, index) => (
+                <span key={crumb.href} className="flex items-center gap-2">
+                  {index > 0 ? <span className="text-border">/</span> : null}
+                  {crumb.active ? (
+                    <span className="font-semibold text-foreground">{crumb.label}</span>
+                  ) : (
+                    <Link href={crumb.href} className="transition hover:text-brand-primary">
+                      {crumb.label}
+                    </Link>
+                  )}
+                </span>
+              ))}
+            </nav>
           </div>
 
           <BlobList prefix={normalizedPrefix} />

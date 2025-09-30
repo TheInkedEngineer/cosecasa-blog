@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { ImagePlus } from "lucide-react"
 import { list } from "@vercel/blob"
 
 import { DeleteBlobForm } from "./delete-blob-form"
@@ -55,6 +56,14 @@ export async function BlobList({ prefix }: BlobListProps) {
 
   const sortedFolders = Array.from(folders).sort((a, b) => a.localeCompare(b))
   const sortedFiles = [...files].sort((a, b) => a.pathname.localeCompare(b.pathname))
+
+  const showUploadImagesButton =
+    normalizedPrefix.startsWith("articles/") &&
+    sortedFiles.some((blob) => blob.pathname === `${normalizedPrefix}text.md`)
+
+  const uploadImagesHref = showUploadImagesButton
+    ? `/admin/upload-images?prefix=${encodeURIComponent(normalizedPrefix)}`
+    : null
 
   if (!sortedFolders.length && !sortedFiles.length) {
     return (
@@ -137,6 +146,20 @@ export async function BlobList({ prefix }: BlobListProps) {
           </li>
         ))}
       </ul>
+      {uploadImagesHref ? (
+        <div className="flex flex-col gap-3 border-t border-border/70 bg-muted/30 px-4 py-4 text-sm md:flex-row md:items-center md:justify-between md:px-6">
+          <p className="text-xs text-muted-foreground md:text-sm">
+            Aggiungi nuove immagini a questo articolo mantenendo intatti i file esistenti.
+          </p>
+          <Link
+            href={uploadImagesHref}
+            className="inline-flex items-center gap-2 self-start rounded-full bg-brand-primary px-4 py-2 text-sm font-semibold text-brand-primary-foreground shadow-sm transition hover:bg-brand-primary/90 md:self-auto"
+          >
+            <ImagePlus className="h-4 w-4" aria-hidden="true" />
+            Carica altre immagini
+          </Link>
+        </div>
+      ) : null}
     </div>
   )
 }

@@ -3,6 +3,7 @@
 import { currentUser } from "@clerk/nextjs/server"
 import { put } from "@vercel/blob"
 import type { UploadState, UploadedAsset } from "./state"
+import { createSlug, ensureUniqueName, sanitizeFileName } from "./utils"
 
 const MAX_MARKDOWN_SIZE_BYTES = 2 * 1024 * 1024 // 2MB guard for markdown uploads
 const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024 // 5MB guard per image
@@ -99,44 +100,4 @@ export async function uploadMarkdownAction(_: UploadState, formData: FormData): 
       error: "Impossibile caricare i file. Controlla il token BLOB e riprova.",
     }
   }
-}
-
-function createSlug(input: string): string {
-  return input
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-}
-
-function sanitizeFileName(fileName: string, fallback: string): string {
-  const name = fileName.trim()
-  const extensionMatch = name.match(/\.([a-z0-9]+)$/i)
-  const extension = extensionMatch ? `.${extensionMatch[1].toLowerCase()}` : ""
-  const base = extension ? name.slice(0, -extension.length) : name
-  const slug = createSlug(base) || fallback
-  return `${slug}${extension}`
-}
-
-function ensureUniqueName(fileName: string, usedNames: Set<string>): string {
-  if (!usedNames.has(fileName)) {
-    usedNames.add(fileName)
-    return fileName
-  }
-
-  const extensionMatch = fileName.match(/\.([a-z0-9]+)$/i)
-  const extension = extensionMatch ? `.${extensionMatch[1]}` : ""
-  const base = extension ? fileName.slice(0, -extension.length) : fileName
-
-  let attempt = 1
-  let candidate = `${base}-${attempt}${extension}`
-
-  while (usedNames.has(candidate)) {
-    attempt += 1
-    candidate = `${base}-${attempt}${extension}`
-  }
-
-  usedNames.add(candidate)
-  return candidate
 }
