@@ -116,7 +116,6 @@ export async function BlobList({ prefix }: BlobListProps) {
                   <span className="text-xs text-muted-foreground">Apri cartella</span>
                 </div>
                 <span className="text-xs text-muted-foreground text-right md:justify-self-end">—</span>
-                <span className="text-xs text-brand-primary underline-offset-4">Apri</span>
               </Link>
             </li>
           )
