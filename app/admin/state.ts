@@ -4,3 +4,11 @@ export interface DeleteState {
 }
 
 export const initialDeleteState: DeleteState = {}
+
+export interface DeleteArticleState {
+  success?: boolean
+  error?: string
+  redirectTo?: string
+}
+
+export const initialDeleteArticleState: DeleteArticleState = {}

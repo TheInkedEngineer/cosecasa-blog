@@ -4,22 +4,12 @@ import { ImagePlus } from "lucide-react"
 import { list } from "@vercel/blob"
 
 import { DeleteBlobForm } from "./delete-blob-form"
+import { DeleteArticleForm } from "./delete-article-form"
 
 function formatSize(size: number): string {
   if (size < 1024) return `${size} B`
   if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`
   return `${(size / 1024 / 1024).toFixed(2)} MB`
-}
-
-function formatDate(input: string | Date): string {
-  const date = typeof input === "string" ? new Date(input) : input
-  return date.toLocaleString("it-IT", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  })
 }
 
 interface BlobListProps {
@@ -61,6 +51,8 @@ export async function BlobList({ prefix }: BlobListProps) {
     normalizedPrefix.startsWith("articles/") &&
     sortedFiles.some((blob) => blob.pathname === `${normalizedPrefix}text.md`)
 
+  const showDeleteArticleButton = showUploadImagesButton && normalizedPrefix !== "articles/"
+
   const uploadImagesHref = showUploadImagesButton
     ? `/admin/upload-images?prefix=${encodeURIComponent(normalizedPrefix)}`
     : null
@@ -79,25 +71,32 @@ export async function BlobList({ prefix }: BlobListProps) {
 
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-      <div className="hidden bg-muted px-6 py-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground md:grid md:grid-cols-[minmax(0,3fr)_minmax(0,1fr)_auto_auto] md:gap-4">
+      <div className="hidden items-center gap-4 bg-muted px-6 py-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground md:grid md:grid-cols-[minmax(0,6fr)_minmax(0,2fr)_minmax(0,2fr)]">
         <span>Elemento</span>
-        <span>Dimensione</span>
-        <span>Ultimo upload</span>
-        <span className="sr-only">Azioni</span>
+        <span className="text-right">DIMENSIONE</span>
+        {showDeleteArticleButton ? (
+          <div className="flex justify-end md:justify-self-end">
+            <DeleteArticleForm prefix={normalizedPrefix} />
+          </div>
+        ) : (
+          <span className="sr-only">Azioni</span>
+        )}
       </div>
+      {showDeleteArticleButton ? (
+        <div className="flex justify-end border-b border-border/70 px-4 py-3 md:hidden">
+          <DeleteArticleForm prefix={normalizedPrefix} />
+        </div>
+      ) : null}
       <ul>
         {parentPrefix !== null && (
           <li key=".." className="border-t border-border/70">
             <Link
               href={parentPrefix ? `/admin?prefix=${encodeURIComponent(parentPrefix)}` : "/admin"}
-              className="flex flex-col gap-2 px-4 py-4 text-sm transition hover:bg-muted md:grid md:grid-cols-[minmax(0,3fr)_minmax(0,1fr)_auto_auto] md:items-center md:gap-4 md:px-6"
+              className="flex flex-col gap-2 px-4 py-4 text-sm transition hover:bg-muted md:grid md:grid-cols-[minmax(0,6fr)_minmax(0,2fr)_minmax(0,2fr)] md:items-center md:gap-4 md:px-6"
             >
               <div className="min-w-0">
                 <p className="font-medium text-foreground">⬅︎ Torna alla cartella superiore</p>
               </div>
-              <span className="text-xs text-muted-foreground">—</span>
-              <span className="text-xs text-muted-foreground">—</span>
-              <span className="text-xs text-brand-primary underline-offset-4">Apri</span>
             </Link>
           </li>
         )}
@@ -108,7 +107,7 @@ export async function BlobList({ prefix }: BlobListProps) {
             <li key={`dir-${folder}`} className="border-t border-border/70">
               <Link
                 href={href}
-                className="flex flex-col gap-2 px-4 py-4 text-sm transition hover:bg-muted md:grid md:grid-cols-[minmax(0,3fr)_minmax(0,1fr)_auto_auto] md:items-center md:gap-4 md:px-6"
+                className="flex flex-col gap-2 px-4 py-4 text-sm transition hover:bg-muted md:grid md:grid-cols-[minmax(0,6fr)_minmax(0,2fr)_minmax(0,2fr)] md:items-center md:gap-4 md:px-6"
               >
                 <div className="min-w-0">
                   <p className="truncate font-semibold text-foreground" title={folder}>
@@ -116,8 +115,7 @@ export async function BlobList({ prefix }: BlobListProps) {
                   </p>
                   <span className="text-xs text-muted-foreground">Apri cartella</span>
                 </div>
-                <span className="text-xs text-muted-foreground">—</span>
-                <span className="text-xs text-muted-foreground">—</span>
+                <span className="text-xs text-muted-foreground text-right md:justify-self-end">—</span>
                 <span className="text-xs text-brand-primary underline-offset-4">Apri</span>
               </Link>
             </li>
@@ -125,7 +123,7 @@ export async function BlobList({ prefix }: BlobListProps) {
         })}
         {sortedFiles.map((blob) => (
           <li key={blob.pathname} className="border-t border-border/70">
-            <div className="flex flex-col gap-3 px-4 py-4 text-sm md:grid md:grid-cols-[minmax(0,3fr)_minmax(0,1fr)_auto_auto] md:items-center md:gap-4 md:px-6">
+            <div className="flex flex-col gap-3 px-4 py-4 text-sm md:grid md:grid-cols-[minmax(0,6fr)_minmax(0,2fr)_minmax(0,2fr)] md:items-center md:gap-4 md:px-6">
               <div className="min-w-0">
                 <p className="truncate font-medium text-foreground" title={blob.pathname}>
                   {normalizedPrefix ? blob.pathname.slice(normalizedPrefix.length) : blob.pathname}
@@ -139,9 +137,22 @@ export async function BlobList({ prefix }: BlobListProps) {
                   Apri file
                 </a>
               </div>
-              <span className="text-xs text-muted-foreground">{formatSize(blob.size)}</span>
-              <span className="text-xs text-muted-foreground">{formatDate(blob.uploadedAt)}</span>
-              <DeleteBlobForm pathname={blob.pathname} />
+              <span className="text-xs text-muted-foreground text-right md:justify-self-end">
+                {formatSize(blob.size)}
+              </span>
+              {(() => {
+                const relativeName = normalizedPrefix
+                  ? blob.pathname.slice(normalizedPrefix.length)
+                  : blob.pathname
+                if (relativeName === "text.md") {
+                  return <span className="text-xs text-muted-foreground text-right md:justify-self-end">—</span>
+                }
+                return (
+                  <div className="flex justify-end md:justify-self-end">
+                    <DeleteBlobForm pathname={blob.pathname} />
+                  </div>
+                )
+              })()}
             </div>
           </li>
         ))}
