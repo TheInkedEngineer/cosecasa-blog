@@ -1,13 +1,21 @@
 "use server"
 
+import { currentUser } from "@clerk/nextjs/server"
 import { put } from "@vercel/blob"
 
+import { hasConfiguredAdminEmails, isAdminUser } from "@/lib/admin-auth"
 import type { UploadState, UploadedAsset } from "./state"
 
 const MAX_MARKDOWN_SIZE_BYTES = 2 * 1024 * 1024 // 2MB guard for markdown uploads
 const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024 // 5MB guard per image
 
 export async function uploadMarkdownAction(_: UploadState, formData: FormData): Promise<UploadState> {
+  const user = await currentUser()
+
+  if (!user || !hasConfiguredAdminEmails || !isAdminUser(user)) {
+    return { success: false, error: "Non sei autorizzato a caricare asset." }
+  }
+
   const blobToken = process.env.BLOB_READ_WRITE_TOKEN
 
   if (!blobToken) {

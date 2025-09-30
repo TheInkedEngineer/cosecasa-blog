@@ -1,11 +1,19 @@
 "use server"
 
 import { del } from "@vercel/blob"
+import { currentUser } from "@clerk/nextjs/server"
 import { revalidatePath } from "next/cache"
 
+import { hasConfiguredAdminEmails, isAdminUser } from "@/lib/admin-auth"
 import type { DeleteState } from "./state"
 
 export async function deleteBlobAction(_: DeleteState, formData: FormData): Promise<DeleteState> {
+  const user = await currentUser()
+
+  if (!user || !hasConfiguredAdminEmails || !isAdminUser(user)) {
+    return { error: "Non sei autorizzato a gestire gli asset." }
+  }
+
   const token = process.env.BLOB_READ_WRITE_TOKEN
 
   if (!token) {

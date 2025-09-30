@@ -1,5 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
+import { ClerkProvider } from "@clerk/nextjs"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
@@ -19,11 +20,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="it">
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={null}>{children}</Suspense>
-        <Analytics />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="it">
+        <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+          <Suspense fallback={null}>{children}</Suspense>
+          <Analytics />
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
