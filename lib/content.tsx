@@ -1,3 +1,6 @@
+import { getAllPosts, getAllTags } from "./markdown"
+import { cache } from "react"
+
 export interface Article {
   id: string
   title: string
@@ -8,7 +11,36 @@ export interface Article {
   categories: string[]
 }
 
-export const articles: Article[] = [
+// Fetch articles from markdown/blob at build time
+const getArticlesFromBlob = cache(async (): Promise<Article[]> => {
+  const posts = await getAllPosts()
+
+  return posts.map((post) => ({
+    id: post.slug,
+    title: post.metadata.title,
+    excerpt: post.metadata.excerpt,
+    content: post.content,
+    image: post.metadata.image || "/placeholder.svg",
+    date: post.metadata.date,
+    categories: post.metadata.tags,
+  }))
+})
+
+const getCategoriesFromBlob = cache(async (): Promise<string[]> => {
+  return await getAllTags()
+})
+
+// Export async functions for server components
+export async function getArticles(): Promise<Article[]> {
+  return await getArticlesFromBlob()
+}
+
+export async function getCategories(): Promise<string[]> {
+  return await getCategoriesFromBlob()
+}
+
+// Fallback mock data for backwards compatibility (will be removed after testing)
+const mockArticles: Article[] = [
   {
     id: "bagno-moderno-design",
     title: "Il Bagno Moderno: Tra Funzionalità e Design",
@@ -109,7 +141,7 @@ export const articles: Article[] = [
   },
 ]
 
-export const categories = [
+const mockCategories = [
   "Architettura",
   "Arte e Cultura",
   "Bagno",
@@ -124,3 +156,7 @@ export const categories = [
   "Tavola e Cucina",
   "Viaggi e Destinazioni",
 ]
+
+// Legacy exports (deprecated - use getArticles() and getCategories() instead)
+export const articles = mockArticles
+export const categories = mockCategories

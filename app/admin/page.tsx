@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Plus } from "lucide-react"
+import { Plus, Home } from "lucide-react"
 
 import { Title } from "@/components/ui/title"
 import { spacing, typography } from "@/lib/design-system"
@@ -54,13 +54,22 @@ export default function AdminDashboardPage({ searchParams }: AdminDashboardPageP
               <Title as="h1" margin="none">
                 Archivio cosecase.it
               </Title>
-              <Link
-                href="/admin/upload"
-                className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-5 py-3 text-sm font-semibold text-brand-primary-foreground shadow-sm transition hover:bg-brand-primary/90"
-              >
-                <Plus className="h-4 w-4" aria-hidden="true" />
-                Carica nuovo
-              </Link>
+              <div className="flex gap-3">
+                <Link
+                  href="/"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground shadow-sm transition hover:bg-muted"
+                >
+                  <Home className="h-4 w-4" aria-hidden="true" />
+                  Home
+                </Link>
+                <Link
+                  href="/admin/upload"
+                  className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-5 py-3 text-sm font-semibold text-brand-primary-foreground shadow-sm transition hover:bg-brand-primary/90"
+                >
+                  <Plus className="h-4 w-4" aria-hidden="true" />
+                  Carica nuovo
+                </Link>
+              </div>
             </div>
             <p className={cn(typography.sectionSubtitle)}>
               Consulta cartelle e file salvati su Blob. Naviga nella struttura e rimuovi gli asset che non ti servono più.
