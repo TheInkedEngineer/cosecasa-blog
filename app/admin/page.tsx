@@ -52,7 +52,7 @@ export default function AdminDashboardPage({ searchParams }: AdminDashboardPageP
           <div className="space-y-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <Title as="h1" margin="none">
-                Archivio Vercel Blob
+                Archivio cosecase.it
               </Title>
               <Link
                 href="/admin/upload"
