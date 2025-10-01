@@ -2,6 +2,7 @@ import Link from "next/link"
 
 import { ImagePlus } from "lucide-react"
 import { list } from "@vercel/blob"
+import { unstable_noStore as noStore } from "next/cache"
 
 import { DeleteBlobForm } from "./delete-blob-form"
 import { DeleteArticleForm } from "./delete-article-form"
@@ -17,6 +18,8 @@ interface BlobListProps {
 }
 
 export async function BlobList({ prefix }: BlobListProps) {
+  noStore()
+
   const token = process.env.BLOB_READ_WRITE_TOKEN
 
   if (!token) {
@@ -92,6 +95,7 @@ export async function BlobList({ prefix }: BlobListProps) {
           <li key=".." className="border-t border-border/70">
             <Link
               href={parentPrefix ? `/admin?prefix=${encodeURIComponent(parentPrefix)}` : "/admin"}
+              prefetch={false}
               className="flex flex-col gap-2 px-4 py-4 text-sm transition hover:bg-muted md:grid md:grid-cols-[minmax(0,6fr)_minmax(0,2fr)_minmax(0,2fr)] md:items-center md:gap-4 md:px-6"
             >
               <div className="min-w-0">
@@ -107,6 +111,7 @@ export async function BlobList({ prefix }: BlobListProps) {
             <li key={`dir-${folder}`} className="border-t border-border/70">
               <Link
                 href={href}
+                prefetch={false}
                 className="flex flex-col gap-2 px-4 py-4 text-sm transition hover:bg-muted md:grid md:grid-cols-[minmax(0,6fr)_minmax(0,2fr)_minmax(0,2fr)] md:items-center md:gap-4 md:px-6"
               >
                 <div className="min-w-0">

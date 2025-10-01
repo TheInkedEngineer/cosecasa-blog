@@ -2,6 +2,7 @@
 
 import { currentUser } from "@clerk/nextjs/server"
 import { put } from "@vercel/blob"
+import { revalidatePath } from "next/cache"
 import type { UploadState, UploadedAsset } from "./state"
 import { createSlug, ensureUniqueName, sanitizeFileName } from "./utils"
 
@@ -85,6 +86,8 @@ export async function uploadMarkdownAction(_: UploadState, formData: FormData): 
       const blob = await put(key, image, { access: "public", token: blobToken })
       imageUploads.push({ url: blob.url, filename: blob.pathname })
     }
+
+    revalidatePath("/admin", "page")
 
     return {
       success: true,

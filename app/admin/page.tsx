@@ -72,7 +72,7 @@ export default function AdminDashboardPage({ searchParams }: AdminDashboardPageP
                   {crumb.active ? (
                     <span className="font-semibold text-foreground">{crumb.label}</span>
                   ) : (
-                    <Link href={crumb.href} className="transition hover:text-brand-primary">
+                    <Link href={crumb.href} prefetch={false} className="transition hover:text-brand-primary">
                       {crumb.label}
                     </Link>
                   )}
