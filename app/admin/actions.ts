@@ -3,6 +3,8 @@
 import { del, list } from "@vercel/blob"
 import { currentUser } from "@clerk/nextjs/server"
 import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
+import { isRedirectError } from "next/dist/client/components/redirect"
 import type { DeleteArticleState, DeleteState } from "./state"
 import { normalizeArticlesPrefix } from "./upload-images/utils"
 
@@ -85,8 +87,11 @@ export async function deleteArticleAction(
     const parentPrefix = normalizedPrefix.replace(/[^/]+\/$/, "")
     const redirectTo = parentPrefix ? `/admin?prefix=${encodeURIComponent(parentPrefix)}` : "/admin"
 
-    return { success: true, redirectTo }
+    redirect(redirectTo)
   } catch (error) {
+    if (isRedirectError(error)) {
+      throw error
+    }
     console.error("Failed to delete article folder", error)
     return { error: "Impossibile eliminare l'articolo. Riprova più tardi." }
   }

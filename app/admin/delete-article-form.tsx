@@ -1,8 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
 import { useFormState, useFormStatus } from "react-dom"
-import { useRouter } from "next/navigation"
 
 import { Trash2 } from "lucide-react"
 
@@ -16,17 +14,10 @@ interface DeleteArticleFormProps {
 }
 
 export function DeleteArticleForm({ prefix }: DeleteArticleFormProps) {
-  const router = useRouter()
   const [state, formAction] = useFormState<DeleteArticleState, FormData>(
     deleteArticleAction,
     initialDeleteArticleState,
   )
-
-  useEffect(() => {
-    if (state?.success && state.redirectTo) {
-      router.push(state.redirectTo)
-    }
-  }, [router, state?.success, state?.redirectTo])
 
   return (
     <form
