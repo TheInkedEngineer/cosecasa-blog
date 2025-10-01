@@ -31,12 +31,6 @@ export async function fetchArticlesFromBlob(): Promise<BlobArticle[]> {
   }
 
   try {
-    // Get base URL from first blob (all blobs share the same domain)
-    const firstBlob = await list({ token, limit: 1 })
-    const blobBaseUrl = firstBlob.blobs[0]?.url
-      ? new URL(firstBlob.blobs[0].url).origin
-      : ""
-
     // List all files in articles/ prefix
     const allBlobs: BlobFile[] = []
     let cursor: string | undefined
@@ -101,7 +95,7 @@ export async function fetchArticlesFromBlob(): Promise<BlobArticle[]> {
         const markdownText = await response.text()
 
         // Parse the Markdown
-        const parsed = await parseMarkdown(markdownText, slug, blobBaseUrl)
+        const parsed = await parseMarkdown(markdownText, slug)
 
         // Extract first image from content or use first uploaded image
         const imageUrl = extractFirstImage(parsed.htmlContent) || images[0]

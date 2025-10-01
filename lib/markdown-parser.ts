@@ -19,11 +19,7 @@ export interface ParsedMarkdown {
  * Parse a Markdown file with YAML frontmatter
  * Extracts metadata and converts Markdown to sanitized HTML
  */
-export async function parseMarkdown(
-  markdownText: string,
-  slug: string,
-  blobBaseUrl: string = "",
-): Promise<ParsedMarkdown> {
+export async function parseMarkdown(markdownText: string, slug: string): Promise<ParsedMarkdown> {
   // Parse frontmatter using gray-matter
   const { data, content } = matter(markdownText)
 
@@ -36,7 +32,7 @@ export async function parseMarkdown(
     : []
 
   // Replace relative image paths with full Blob URLs
-  const contentWithResolvedImages = resolveImagePaths(content, slug, blobBaseUrl)
+  const contentWithResolvedImages = resolveImagePaths(content, slug)
 
   // Convert Markdown to HTML using remark
   const processedContent = await remark()
@@ -83,22 +79,55 @@ export async function parseMarkdown(
  * Replace relative image paths with full Blob URLs
  * Converts: ![alt](/image.png) -> ![alt](https://blob-url/articles/slug/image.png)
  */
-function resolveImagePaths(content: string, slug: string, blobBaseUrl: string): string {
-  if (!blobBaseUrl) {
-    return content
-  }
-
-  // Match Markdown image syntax: ![alt](path)
+function resolveImagePaths(content: string, slug: string): string {
   const imageRegex = /!\[([^\]]*)\]\(([^)]+)\)/g
 
   return content.replace(imageRegex, (match, alt, path) => {
-    // Only replace relative paths (starting with / or ./)
-    if (path.startsWith("/") || path.startsWith("./")) {
-      const cleanPath = path.replace(/^\.?\//, "") // Remove leading / or ./
-      const fullUrl = `${blobBaseUrl}/articles/${slug}/${cleanPath}`
-      return `![${alt}](${fullUrl})`
+    if (isRelativePath(path)) {
+      const normalized = normalizeRelativePath(path)
+      const imageUrl = ghRawUrl(slug, normalized)
+      return `![${alt}](${imageUrl})`
     }
-    // Keep absolute URLs unchanged
+
     return match
   })
+}
+
+function isRelativePath(path: string): boolean {
+  return path.startsWith("./") || path.startsWith("../") || path.startsWith("/") || !/^https?:/i.test(path)
+}
+
+function normalizeRelativePath(path: string): string {
+  if (path.includes("..")) {
+    throw new Error("Path traversal rilevato nelle immagini dell'articolo.")
+  }
+
+  const withoutLeading = path.replace(/^\.+\/+/, "").replace(/^\/+/, "")
+  const normalized = withoutLeading.replace(/\\/g, "/")
+
+  return normalized
+}
+
+function ghRawUrl(slug: string, filename: string): string {
+  const owner = process.env.GITHUB_OWNER
+  const repo = process.env.GITHUB_REPO
+  const branch = process.env.GITHUB_BRANCH ?? "main"
+
+  if (!owner || !repo) {
+    throw new Error("Variabili GITHUB_OWNER o GITHUB_REPO mancanti per generare gli URL delle immagini.")
+  }
+
+  const cleanSlug = slug.toLowerCase().replace(/[^a-z0-9-]/g, "")
+
+  if (!cleanSlug) {
+    throw new Error("Slug articolo non valido per la generazione dell'URL GitHub.")
+  }
+
+  const cleanFile = filename.replace(/\\/g, "/").replace(/^\/+/, "")
+
+  if (!cleanFile || cleanFile.includes("..")) {
+    throw new Error("Percorso immagine non valido per GitHub Raw.")
+  }
+
+  return `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/articles/${cleanSlug}/${cleanFile}`
 }

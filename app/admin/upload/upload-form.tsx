@@ -1,16 +1,16 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react"
-import { useFormState, useFormStatus } from "react-dom"
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react"
 import { useRouter } from "next/navigation"
 
-import { FileText, RefreshCcw, Trash2, X, type LucideIcon } from "lucide-react"
+import { FileText, Loader2, RefreshCcw, Trash2, X, type LucideIcon } from "lucide-react"
 
+import { toast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { uploadMarkdownAction } from "./actions"
-import { initialUploadState, type UploadState } from "./state"
+
+import { usePendingChanges, validateImageSize } from "../pending-changes-context"
+import { createSlug, ensureUniqueName, sanitizeFileName } from "./utils"
 
 interface LocalImage {
   id: string
@@ -18,45 +18,19 @@ interface LocalImage {
   preview: string
 }
 
+const MAX_MARKDOWN_SIZE_BYTES = 2 * 1024 * 1024
+
 export function UploadForm() {
-  const [state, formAction] = useFormState<UploadState, FormData>(uploadMarkdownAction, initialUploadState)
-  const [hasSubmitted, setHasSubmitted] = useState(false)
   const [title, setTitle] = useState("")
   const [markdownFile, setMarkdownFile] = useState<File | null>(null)
   const [images, setImages] = useState<LocalImage[]>([])
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const router = useRouter()
+  const { addUpload } = usePendingChanges()
+
   const markdownInputRef = useRef<HTMLInputElement | null>(null)
   const imagesRef = useRef<LocalImage[]>([])
-  const hasNavigatedRef = useRef(false)
-
-  const isSuccess = hasSubmitted && state.success
-  const isError = hasSubmitted && !state.success && Boolean(state.error)
-  const isSubmitDisabled = !title.trim() || !markdownFile
-
-  const basePath = useMemo(() => (state.slug ? `articles/${state.slug}` : undefined), [state.slug])
-
-  useEffect(() => {
-    if (!state.success || hasNavigatedRef.current) {
-      return
-    }
-
-    hasNavigatedRef.current = true
-
-    imagesRef.current.forEach((image) => URL.revokeObjectURL(image.preview))
-    setImages([])
-    setMarkdownFile(null)
-    setTitle("")
-    setHasSubmitted(false)
-    if (markdownInputRef.current) {
-      markdownInputRef.current.value = ""
-    }
-
-    const targetPrefix = state.slug ? `articles/${state.slug}/` : undefined
-    const destination = targetPrefix ? `/admin?prefix=${encodeURIComponent(targetPrefix)}` : "/admin"
-
-    void router.replace(destination)
-  }, [router, state.success, state.slug])
 
   useEffect(() => {
     imagesRef.current = images
@@ -70,8 +44,46 @@ export function UploadForm() {
 
   const handleMarkdownChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] ?? null
+
+    if (file) {
+      const isMarkdown =
+        file.type === "text/markdown" ||
+        file.type === "text/plain" ||
+        file.name.toLowerCase().endsWith(".md")
+
+      if (!isMarkdown) {
+        toast({
+          variant: "destructive",
+          title: "Formato non supportato",
+          description: "Carica un file markdown (.md).",
+        })
+        event.target.value = ""
+        return
+      }
+
+      if (file.size === 0) {
+        toast({
+          variant: "destructive",
+          title: "File vuoto",
+          description: "Il markdown selezionato è vuoto.",
+        })
+        event.target.value = ""
+        return
+      }
+
+      if (file.size > MAX_MARKDOWN_SIZE_BYTES) {
+        toast({
+          variant: "destructive",
+          title: "Markdown troppo grande",
+          description: "Dimensione massima consentita: 2MB.",
+        })
+        event.target.value = ""
+        return
+      }
+    }
+
     setMarkdownFile(file)
-    setHasSubmitted(false)
+
     if (event.target) {
       event.target.value = ""
     }
@@ -81,22 +93,33 @@ export function UploadForm() {
     const files = Array.from(event.target.files ?? [])
     const nextImages: LocalImage[] = []
 
-    files.forEach((file) => {
+    for (const file of files) {
       if (!file.type.startsWith("image/")) {
-        return
+        continue
+      }
+
+      try {
+        validateImageSize(file)
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Immagine troppo grande",
+          description: error instanceof Error ? error.message : "Riduci la dimensione dell'immagine.",
+        })
+        continue
+      }
+
+      const alreadySelected = images.some((image) => image.file.name === file.name && image.file.size === file.size)
+      if (alreadySelected) {
+        continue
       }
 
       const identifier = typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`
-      const alreadySelected = images.some((image) => image.file.name === file.name && image.file.size === file.size)
-
-      if (!alreadySelected) {
-        nextImages.push({ id: identifier, file, preview: URL.createObjectURL(file) })
-      }
-    })
+      nextImages.push({ id: identifier, file, preview: URL.createObjectURL(file) })
+    }
 
     if (nextImages.length > 0) {
       setImages((prev) => [...prev, ...nextImages])
-      setHasSubmitted(false)
     }
 
     if (event.target) {
@@ -113,28 +136,90 @@ export function UploadForm() {
       }
       return next
     })
-    setHasSubmitted(false)
   }
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (isSubmitting) {
+      return
+    }
+
+    if (!title.trim() || !markdownFile) {
+      toast({
+        variant: "destructive",
+        title: "Compila i campi richiesti",
+        description: "Inserisci un titolo e seleziona il file markdown dell'articolo.",
+      })
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      const slug = createSlug(title) || "untitled"
+      const markdownContent = await markdownFile.text()
+
+      if (!markdownContent.trim()) {
+        throw new Error("Il file markdown non può essere vuoto.")
+      }
+
+      const usedNames = new Set<string>()
+      const imagePayload = [] as Array<{ name: string; dataUrl: string; size: number }>
+
+      for (const [index, image] of images.entries()) {
+        const sanitizedName = sanitizeFileName(image.file.name || `image-${index + 1}.png`, `image-${index + 1}`)
+        const uniqueName = ensureUniqueName(sanitizedName, usedNames)
+        const dataUrl = await fileToDataUrl(image.file)
+        imagePayload.push({ name: uniqueName, dataUrl, size: image.file.size })
+      }
+
+      addUpload({
+        slug,
+        title: title.trim(),
+        markdown: markdownContent,
+        images: imagePayload,
+      })
+
+      toast({
+        title: "Articolo aggiunto alle modifiche",
+        description: "Apri la pagina principale dell'admin e pubblica quando sei pronto.",
+      })
+
+      setTitle("")
+      setMarkdownFile(null)
+      setImages((prev) => {
+        prev.forEach((image) => URL.revokeObjectURL(image.preview))
+        return []
+      })
+
+      if (markdownInputRef.current) {
+        markdownInputRef.current.value = ""
+      }
+
+      router.push("/admin")
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Impossibile aggiungere l'articolo alle modifiche pendenti. Riprova."
+
+      toast({
+        variant: "destructive",
+        title: "Operazione non riuscita",
+        description: message,
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const isSubmitDisabled = !title.trim() || !markdownFile || isSubmitting
 
   return (
     <Card>
       <CardContent className="space-y-6 p-6">
-        <form
-          className="space-y-6"
-          action={() => {
-            setHasSubmitted(true)
-            const formData = new FormData()
-            formData.set("title", title.trim())
-            if (markdownFile) {
-              formData.set("markdown", markdownFile)
-            }
-            images.forEach((image) => {
-              formData.append("images", image.file)
-            })
-
-            return formAction(formData)
-          }}
-        >
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <label htmlFor="title" className="block text-sm font-medium text-muted-foreground">
               Titolo dell'articolo
@@ -144,12 +229,10 @@ export function UploadForm() {
               name="title"
               type="text"
               value={title}
-              onChange={(event) => {
-                setTitle(event.target.value)
-                setHasSubmitted(false)
-              }}
+              onChange={(event) => setTitle(event.target.value)}
               placeholder="Es. La danza della luce a Firenze"
               className="block w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary/40"
+              autoComplete="off"
             />
           </div>
 
@@ -200,7 +283,6 @@ export function UploadForm() {
                       label="Rimuovi file"
                       onClick={() => {
                         setMarkdownFile(null)
-                        setHasSubmitted(false)
                         if (markdownInputRef.current) {
                           markdownInputRef.current.value = ""
                         }
@@ -251,77 +333,37 @@ export function UploadForm() {
           </div>
 
           <div className="flex items-start gap-3">
-            <SubmitButton disabled={isSubmitDisabled} />
+            <Button type="submit" disabled={isSubmitDisabled}>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                  Aggiunta in corso...
+                </>
+              ) : (
+                "Aggiungi alle modifiche"
+              )}
+            </Button>
             <p className="text-xs text-muted-foreground">
-              Assicurati di avere impostato la variabile <code>BLOB_READ_WRITE_TOKEN</code>. I file saranno caricati in
-              percorsi del tipo <code className="ml-1">articles/&#123;slug-del-titolo&#125;</code>.
+              L'articolo verrà salvato localmente nelle modifiche in sospeso. Premi "Pubblica" dalla dashboard quando vuoi creare il commit su GitHub.
             </p>
           </div>
         </form>
-
-        {isSuccess && (
-          <div className="space-y-3 rounded-lg border border-brand-primary/30 bg-brand-primary/5 p-4 text-sm">
-            <p className="font-medium text-brand-primary">
-              Upload completato con successo per <span className="font-semibold">{state.title}</span>.
-            </p>
-            {basePath && (
-              <p className="text-xs text-muted-foreground">
-                Cartella base: <code>{basePath}</code>
-              </p>
-            )}
-            {state.markdown && (
-              <AssetRow label="Markdown" asset={state.markdown} />
-            )}
-            {state.images && state.images.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-xs font-medium text-muted-foreground">Immagini caricate</p>
-                <div className="space-y-1">
-                  {state.images.map((image) => (
-                    <AssetRow key={image.filename} label="Immagine" asset={image} />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {isError && state.error && (
-          <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
-            {state.error}
-          </div>
-        )}
       </CardContent>
     </Card>
   )
 }
 
-function SubmitButton({ disabled }: { disabled: boolean }) {
-  const { pending } = useFormStatus()
+async function fileToDataUrl(file: File): Promise<string> {
+  if (typeof window === "undefined") {
+    throw new Error("La conversione dei file è disponibile solo lato client.")
+  }
 
-  return (
-    <Button type="submit" disabled={pending || disabled}>
-      {pending ? "Caricamento..." : "Carica su Vercel Blob"}
-    </Button>
-  )
-}
-
-function AssetRow({ label, asset }: { label: string; asset: { url: string; filename: string } }) {
-  return (
-    <div className="flex flex-wrap items-center gap-2 rounded-md border border-border/60 bg-background/80 px-3 py-2 text-xs">
-      <Badge variant="outline" className="text-[10px] uppercase tracking-wide">
-        {label}
-      </Badge>
-      <span className="truncate text-muted-foreground">{asset.filename}</span>
-      <a
-        href={asset.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="ml-auto text-brand-primary underline-offset-4 hover:underline"
-      >
-        Apri
-      </a>
-    </div>
-  )
+  return await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = () => reject(new Error(`Impossibile leggere il file ${file.name}`))
+    reader.readAsDataURL(file)
+  })
 }
 
 function IconButton({
