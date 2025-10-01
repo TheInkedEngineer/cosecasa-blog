@@ -13,7 +13,7 @@ export const revalidate = 0
 
 export const metadata = {
   title: "Carica Markdown",
-  description: "Carica file Markdown su Vercel Blob per archiviarli in modo sicuro.",
+  description: "Accoda nuovi articoli che verranno pubblicati su GitHub.",
 }
 
 export default function UploadPage() {
@@ -32,9 +32,8 @@ export default function UploadPage() {
             Carica un file Markdown
           </Title>
           <p className={cn(typography.sectionSubtitle)}>
-            Compila il titolo dell'articolo, allega il file <code>.md</code> e aggiungi immagini opzionali. Al momento
-            dell'upload salveremo tutto in Vercel Blob seguendo la struttura <code>articles/&#123;slug-del-titolo&#125;</code> e ti
-            restituiremo i relativi URL.
+            Compila il titolo dell'articolo, allega il file <code>.md</code> e aggiungi immagini opzionali. Le modifiche
+            verranno salvate localmente nell'area amministrativa e pubblicate su GitHub quando premi "Pubblica".
           </p>
           <UploadForm />
         </div>

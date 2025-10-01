@@ -19,6 +19,14 @@ export interface GitAuthor {
   date?: string
 }
 
+export interface RepoContentEntry {
+  name: string
+  path: string
+  type: "file" | "dir"
+  sha: string
+  size: number
+}
+
 interface GitHubConfig {
   token: string
   owner: string
@@ -149,4 +157,88 @@ export async function getCommitTreeSha(commitSha: string): Promise<string> {
   })
 
   return response.data.tree.sha
+}
+
+export async function listDirectoryContents(path: string): Promise<RepoContentEntry[]> {
+  const { owner, repo, branch } = getConfig()
+  const octokit = getOctokit()
+
+  const normalizedPath = path.replace(/^\/+/, "").replace(/\/+$/, "")
+
+  try {
+    const response = await octokit.repos.getContent({
+      owner,
+      repo,
+      path: normalizedPath || ".",
+      ref: branch,
+    })
+
+    if (!Array.isArray(response.data)) {
+      return []
+    }
+
+    return response.data.map((entry) => ({
+      name: entry.name,
+      path: entry.path,
+      type: entry.type === "dir" ? "dir" : "file",
+      sha: entry.sha,
+      size: typeof entry.size === "number" ? entry.size : 0,
+    }))
+  } catch (error) {
+    if (isNotFoundError(error)) {
+      return []
+    }
+    throw error
+  }
+}
+
+export function getRawFileUrl(path: string): string {
+  const { owner, repo, branch } = getConfig()
+  const safePath = path.replace(/^\/+/, "")
+  return `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${safePath}`
+}
+
+export async function getFileContent(path: string): Promise<string> {
+  const { owner, repo, branch } = getConfig()
+  const octokit = getOctokit()
+  const normalizedPath = path.replace(/^\/+/, "")
+
+  try {
+    const response = await octokit.repos.getContent({
+      owner,
+      repo,
+      path: normalizedPath,
+      ref: branch,
+    })
+
+    if (Array.isArray(response.data)) {
+      throw new Error(`Expected file content for ${normalizedPath}, received directory listing.`)
+    }
+
+    const { content, encoding } = response.data
+
+    if (!content) {
+      return ""
+    }
+
+    if (encoding === "base64") {
+      return Buffer.from(content, "base64").toString("utf-8")
+    }
+
+    return content
+  } catch (error) {
+    if (isNotFoundError(error)) {
+      throw new Error(`File ${normalizedPath} not found in repository.`)
+    }
+    throw error
+  }
+}
+
+function isNotFoundError(error: unknown): boolean {
+  return Boolean(
+    error &&
+      typeof error === "object" &&
+      "status" in error &&
+      (error as { status?: number }).status === 404,
+  )
 }

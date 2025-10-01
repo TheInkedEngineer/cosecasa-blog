@@ -4,6 +4,8 @@ import remarkParse from "remark-parse"
 import remarkHtml from "remark-html"
 import sanitizeHtml from "sanitize-html"
 
+import { getRawFileUrl } from "./github-api"
+
 export interface ParsedMarkdown {
   frontmatter: {
     title: string
@@ -31,7 +33,7 @@ export async function parseMarkdown(markdownText: string, slug: string): Promise
     ? tagsRaw
     : []
 
-  // Replace relative image paths with full Blob URLs
+  // Replace relative image paths with full GitHub raw URLs
   const contentWithResolvedImages = resolveImagePaths(content, slug)
 
   // Convert Markdown to HTML using remark
@@ -76,8 +78,8 @@ export async function parseMarkdown(markdownText: string, slug: string): Promise
 }
 
 /**
- * Replace relative image paths with full Blob URLs
- * Converts: ![alt](/image.png) -> ![alt](https://blob-url/articles/slug/image.png)
+ * Replace relative image paths with full GitHub raw URLs
+ * Converts: ![alt](/image.png) -> ![alt](https://raw.githubusercontent.com/.../articles/slug/image.png)
  */
 function resolveImagePaths(content: string, slug: string): string {
   const imageRegex = /!\[([^\]]*)\]\(([^)]+)\)/g
@@ -109,14 +111,6 @@ function normalizeRelativePath(path: string): string {
 }
 
 function ghRawUrl(slug: string, filename: string): string {
-  const owner = process.env.GITHUB_OWNER
-  const repo = process.env.GITHUB_REPO
-  const branch = process.env.GITHUB_BRANCH ?? "main"
-
-  if (!owner || !repo) {
-    throw new Error("Variabili GITHUB_OWNER o GITHUB_REPO mancanti per generare gli URL delle immagini.")
-  }
-
   const cleanSlug = slug.toLowerCase().replace(/[^a-z0-9-]/g, "")
 
   if (!cleanSlug) {
@@ -129,5 +123,5 @@ function ghRawUrl(slug: string, filename: string): string {
     throw new Error("Percorso immagine non valido per GitHub Raw.")
   }
 
-  return `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/articles/${cleanSlug}/${cleanFile}`
+  return getRawFileUrl(`articles/${cleanSlug}/${cleanFile}`)
 }

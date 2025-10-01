@@ -1,5 +1,6 @@
 import { cache } from "react"
-import { fetchArticlesFromBlob, extractUniqueTags, type BlobArticle } from "./blob-service"
+
+import { fetchArticlesFromGitHub, extractUniqueTags, type ArticleRecord } from "./articles-service"
 
 export interface PostMetadata {
   title: string
@@ -20,15 +21,15 @@ export interface Post {
 }
 
 // Cache for build-time article fetching
-const getCachedArticles = cache(async (): Promise<BlobArticle[]> => {
-  return await fetchArticlesFromBlob()
+const getCachedArticles = cache(async (): Promise<ArticleRecord[]> => {
+  return await fetchArticlesFromGitHub()
 })
 
 /**
- * Map BlobArticle to Post interface
+ * Map ArticleRecord to Post interface
  * Infers category and subcategory from tags
  */
-function mapBlobArticleToPost(article: BlobArticle): Post {
+function mapArticleToPost(article: ArticleRecord): Post {
   // Try to infer category from tags
   const category = inferCategory(article.tags)
   const subcategory = article.tags[0] || "generale"
@@ -80,7 +81,7 @@ export async function getPostBySlug(category: string, slug: string): Promise<Pos
     return null
   }
 
-  const post = mapBlobArticleToPost(article)
+  const post = mapArticleToPost(article)
 
   // Verify category matches
   if (post.metadata.category !== category) {
@@ -92,7 +93,7 @@ export async function getPostBySlug(category: string, slug: string): Promise<Pos
 
 export async function getAllPosts(): Promise<Post[]> {
   const articles = await getCachedArticles()
-  return articles.map(mapBlobArticleToPost)
+  return articles.map(mapArticleToPost)
 }
 
 export async function getPostsByCategory(category: string): Promise<Post[]> {

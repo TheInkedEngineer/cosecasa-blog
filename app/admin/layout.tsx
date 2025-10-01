@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import { currentUser } from "@clerk/nextjs/server"
 
 import { AdminLogoutButton } from "./admin-logout-button"
+import { PendingChangesProvider } from "./pending-changes-context"
 
 export const dynamic = "force-dynamic"
 
@@ -18,11 +19,11 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   return (
-    <>
+    <PendingChangesProvider>
       <div className="fixed right-6 top-4 z-50">
         <AdminLogoutButton />
       </div>
       {children}
-    </>
+    </PendingChangesProvider>
   )
 }

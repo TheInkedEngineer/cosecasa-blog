@@ -11,8 +11,8 @@ export interface Article {
   categories: string[]
 }
 
-// Fetch articles from markdown/blob at build time
-const getArticlesFromBlob = cache(async (): Promise<Article[]> => {
+// Fetch articles from GitHub-backed markdown at build time
+const getArticlesFromRepo = cache(async (): Promise<Article[]> => {
   const posts = await getAllPosts()
 
   return posts.map((post) => ({
@@ -26,17 +26,17 @@ const getArticlesFromBlob = cache(async (): Promise<Article[]> => {
   }))
 })
 
-const getCategoriesFromBlob = cache(async (): Promise<string[]> => {
+const getCategoriesFromRepo = cache(async (): Promise<string[]> => {
   return await getAllTags()
 })
 
 // Export async functions for server components
 export async function getArticles(): Promise<Article[]> {
-  return await getArticlesFromBlob()
+  return await getArticlesFromRepo()
 }
 
 export async function getCategories(): Promise<string[]> {
-  return await getCategoriesFromBlob()
+  return await getCategoriesFromRepo()
 }
 
 // Fallback mock data for backwards compatibility (will be removed after testing)
