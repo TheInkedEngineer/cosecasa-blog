@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, type ReactNode } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -17,6 +18,7 @@ interface Article {
   image: string
   date: string
   categories: string[]
+  categorySlug: string
 }
 
 interface HomePageClientProps {
@@ -73,7 +75,7 @@ export function HomePageClient({ articles, categories }: HomePageClientProps) {
 
                 {/* First article - full width */}
                 {latestArticles[0] && (
-                  <Card className="mb-6 overflow-hidden">
+                  <LinkCard article={latestArticles[0]} className="mb-6 overflow-hidden">
                     <div className="md:flex">
                       <div className="md:w-1/2">
                         <Image
@@ -105,14 +107,14 @@ export function HomePageClient({ articles, categories }: HomePageClientProps) {
                         </p>
                       </CardContent>
                     </div>
-                  </Card>
+                  </LinkCard>
                 )}
 
                 {/* Second and third articles - side by side */}
                 {latestArticles.length > 1 && (
                   <div className="grid md:grid-cols-2 gap-6 mb-12">
                     {latestArticles.slice(1, 3).map((article) => (
-                      <Card key={article.id} className="overflow-hidden">
+                      <LinkCard key={article.id} article={article} className="overflow-hidden">
                         <Image
                           src={article.image || "/placeholder.svg"}
                           alt={article.title}
@@ -140,7 +142,7 @@ export function HomePageClient({ articles, categories }: HomePageClientProps) {
                             })}
                           </p>
                         </CardContent>
-                      </Card>
+                      </LinkCard>
                     ))}
                   </div>
                 )}
@@ -150,7 +152,7 @@ export function HomePageClient({ articles, categories }: HomePageClientProps) {
               {remainingArticles.length > 0 && (
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {remainingArticles.map((article) => (
-                    <Card key={article.id} className="overflow-hidden">
+                    <LinkCard key={article.id} article={article} className="overflow-hidden">
                       <Image
                         src={article.image || "/placeholder.svg"}
                         alt={article.title}
@@ -178,7 +180,7 @@ export function HomePageClient({ articles, categories }: HomePageClientProps) {
                           })}
                         </p>
                       </CardContent>
-                    </Card>
+                    </LinkCard>
                   ))}
                 </div>
               )}
@@ -193,5 +195,16 @@ export function HomePageClient({ articles, categories }: HomePageClientProps) {
         </div>
       </section>
     </>
+  )
+}
+
+function LinkCard({ article, className, children }: { article: Article; className?: string; children: ReactNode }) {
+  return (
+    <Link
+      href={`/${article.categorySlug}/${article.id}`}
+      className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/60 focus-visible:ring-offset-2"
+    >
+      <Card className={cn("h-full transition hover:-translate-y-1 hover:shadow-lg", className)}>{children}</Card>
+    </Link>
   )
 }

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation"
+
 import { getPostBySlug, getAllPosts, getRelatedPosts } from "@/lib/markdown"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -27,7 +28,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound()
   }
 
-  const relatedPosts = getRelatedPosts(post, 3)
+  const relatedPosts = await getRelatedPosts(post, 3)
 
   return (
     <div className="min-h-screen bg-background">
@@ -48,7 +49,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 }
 
 export async function generateStaticParams() {
-  const posts = getAllPosts()
+  const posts = await getAllPosts()
 
   return posts.map((post) => ({
     category: post.metadata.category,

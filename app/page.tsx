@@ -22,6 +22,7 @@ export default async function HomePage() {
     image: post.metadata.image || "/placeholder.svg",
     date: post.metadata.date,
     categories: post.metadata.tags,
+    categorySlug: post.metadata.category,
   }))
 
   return (

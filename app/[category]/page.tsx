@@ -30,7 +30,7 @@ interface CategoryPageProps {
   }
 }
 
-export default function CategoryPage({ params, searchParams }: CategoryPageProps) {
+export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const { category } = params
   const { subcategory } = searchParams
 
@@ -38,8 +38,8 @@ export default function CategoryPage({ params, searchParams }: CategoryPageProps
     notFound()
   }
 
-  const posts = getPostsByCategory(category)
-  const subcategories = getSubcategories(category)
+  const posts = await getPostsByCategory(category)
+  const subcategories = await getSubcategories(category)
   const info = categoryInfo[category as keyof typeof categoryInfo]
 
   // Filter posts by subcategory if specified

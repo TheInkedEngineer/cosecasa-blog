@@ -40,7 +40,7 @@ export function PublishButton() {
   const deletes = state.deletes
 
   const pendingCount = uploads.length + deletes.length
-  const totalImages = uploads.reduce((total, upload) => total + upload.images.length, 0)
+  const totalImages = uploads.reduce((total, upload) => total + (upload.images?.length ?? 0), 0)
 
   const handlePublish = () => {
     if (!hasPending || isPublishing) {
@@ -126,7 +126,7 @@ export function PublishButton() {
               <ul className="mt-2 space-y-1 text-muted-foreground">
                 {uploads.map((upload) => (
                   <li key={upload.slug} className="truncate">
-                    📄 <span className="font-medium text-foreground">{upload.title}</span>
+                    📄 <span className="font-medium text-foreground">{upload.title || upload.slug}</span>
                     <span className="ml-2 text-xs">({upload.slug})</span>
                   </li>
                 ))}

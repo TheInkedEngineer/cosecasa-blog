@@ -33,7 +33,7 @@ export function PendingSummary() {
     )
   }
 
-  const totalImages = uploads.reduce((total, upload) => total + upload.images.length, 0)
+  const totalImages = uploads.reduce((total, upload) => total + (upload.images?.length ?? 0), 0)
   const usagePercent = Math.min(100, Math.round((storageUsed / storageLimit) * 100))
 
   return (
@@ -59,4 +59,3 @@ function formatBytes(bytes: number): string {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
   return `${(bytes / 1024 / 1024).toFixed(2)} MB`
 }
-

@@ -6,6 +6,7 @@ import { unstable_noStore as noStore } from "next/cache"
 import { listDirectoryContents, getRawFileUrl, type RepoContentEntry } from "@/lib/github-api"
 
 import { ArticleDeleteToggle } from "./article-delete-toggle"
+import { ArticleImagesUploader } from "./article-images-uploader"
 
 function formatSize(size: number): string {
   if (size < 1024) return `${size} B`
@@ -131,6 +132,11 @@ export async function RepoExplorer({ prefix }: RepoExplorerProps) {
           )
         })}
       </ul>
+      {articleSlug ? (
+        <div className="border-t border-border/70 bg-muted/20 px-4 py-4 sm:px-6">
+          <ArticleImagesUploader slug={articleSlug} title={articleSlug} />
+        </div>
+      ) : null}
     </div>
   )
 }

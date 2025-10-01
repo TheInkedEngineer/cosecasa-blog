@@ -21,8 +21,8 @@ interface PublishImage {
 
 export interface PublishUpload {
   slug: string
-  title: string
-  markdown: string
+  title?: string
+  markdown?: string
   images: PublishImage[]
 }
 
@@ -94,11 +94,8 @@ export async function publishChangesAction(uploads: PublishUpload[], deletes: st
 
 function normalizeUpload(upload: PublishUpload): PublishUpload {
   const slug = normalizeSlug(upload.slug)
-  if (!upload.markdown.trim()) {
-    throw new Error(`Il contenuto markdown per l'articolo "${upload.title || slug}" è vuoto.`)
-  }
 
-  const sanitizedImages = upload.images.map((image, index) => {
+  const sanitizedImages = (upload.images ?? []).map((image, index) => {
     const filename = sanitizeFileName(image.name || `image-${index + 1}.png`)
     if (!image.dataUrl.startsWith("data:")) {
       throw new Error(`Formato immagine non valido per "${filename}".`)
@@ -110,10 +107,17 @@ function normalizeUpload(upload: PublishUpload): PublishUpload {
     }
   })
 
+  const hasMarkdown = typeof upload.markdown === "string" && upload.markdown.trim().length > 0
+  const hasImages = sanitizedImages.length > 0
+
+  if (!hasMarkdown && !hasImages) {
+    throw new Error(`Nessuna modifica valida trovata per l'articolo "${upload.title || slug}".`)
+  }
+
   return {
     slug,
-    title: upload.title.trim() || slug,
-    markdown: upload.markdown,
+    title: upload.title?.trim() || slug,
+    markdown: hasMarkdown ? upload.markdown : undefined,
     images: sanitizedImages,
   }
 }
@@ -145,15 +149,17 @@ async function buildTreeEntries(uploads: PublishUpload[], deletes: string[]): Pr
   let totalImageSize = 0
 
   for (const upload of uploads) {
-    const markdownSha = await createBlob(upload.markdown, "utf-8")
-    entries.push({
-      path: `articles/${upload.slug}/text.md`,
-      mode: "100644",
-      type: "blob",
-      sha: markdownSha,
-    })
+    if (upload.markdown) {
+      const markdownSha = await createBlob(upload.markdown, "utf-8")
+      entries.push({
+        path: `articles/${upload.slug}/text.md`,
+        mode: "100644",
+        type: "blob",
+        sha: markdownSha,
+      })
+    }
 
-    for (const image of upload.images) {
+    for (const image of upload.images ?? []) {
       totalImageSize += image.size
       if (totalImageSize > MAX_TOTAL_IMAGE_SIZE) {
         throw new Error(
@@ -229,4 +235,3 @@ function isOctokitConflict(error: unknown): boolean {
       (error as { status?: number }).status === 422,
   )
 }
-

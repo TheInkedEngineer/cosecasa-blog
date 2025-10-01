@@ -24,8 +24,8 @@ export interface PendingImage {
 
 export interface PendingUpload {
   slug: string
-  title: string
-  markdown: string
+  title?: string
+  markdown?: string
   images: PendingImage[]
 }
 
@@ -38,6 +38,7 @@ interface PendingChangesContextValue {
   state: PendingChangesState
   addUpload: (upload: PendingUpload) => void
   removeUpload: (slug: string) => void
+  appendImages: (slug: string, images: PendingImage[], metadata?: { title?: string }) => void
   addDelete: (slug: string) => void
   removeDelete: (slug: string) => void
   clearAll: () => void
@@ -115,21 +116,78 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
   const storageUsed = useMemo(() => calculateStorageBytes(state), [state])
   const hasPending = state.uploads.length > 0 || state.deletes.length > 0
 
+  const mergeUploads = (existing: PendingUpload | undefined, incoming: PendingUpload): PendingUpload => {
+    const usedNames = new Set<string>()
+    existing?.images.forEach((image) => usedNames.add(image.name))
+
+    const combinedImages: PendingImage[] = []
+
+    if (existing) {
+      combinedImages.push(...existing.images)
+    }
+
+    ;(incoming.images ?? []).forEach((image) => {
+      if (usedNames.has(image.name)) {
+        const uniqueName = ensureUniqueImageName(image.name, usedNames)
+        combinedImages.push({ ...image, name: uniqueName })
+      } else {
+        usedNames.add(image.name)
+        combinedImages.push(image)
+      }
+    })
+
+    return {
+      slug: incoming.slug,
+      title: incoming.title ?? existing?.title,
+      markdown: incoming.markdown ?? existing?.markdown,
+      images: combinedImages,
+    }
+  }
+
   const addUpload = useCallback((upload: PendingUpload) => {
     setState((prev) => {
       const normalizedSlug = sanitizeSlug(upload.slug)
-      const nextUploads = [...prev.uploads.filter((item) => item.slug !== normalizedSlug), {
+      const existing = prev.uploads.find((item) => item.slug === normalizedSlug)
+      const nextUpload = mergeUploads(existing, {
         ...upload,
         slug: normalizedSlug,
-      }]
+        images: upload.images ?? [],
+      })
+      const remainingUploads = prev.uploads.filter((item) => item.slug !== normalizedSlug)
       const nextState: PendingChangesState = {
-        uploads: nextUploads,
+        uploads: [...remainingUploads, nextUpload],
         deletes: prev.deletes.filter((slug) => slug !== normalizedSlug),
       }
       assertWithinStorageLimit(nextState)
       return nextState
     })
   }, [])
+
+  const appendImages = useCallback(
+    (slug: string, images: PendingImage[], metadata?: { title?: string }) => {
+      if (!images.length) {
+        return
+      }
+
+      setState((prev) => {
+        const normalizedSlug = sanitizeSlug(slug)
+        const existing = prev.uploads.find((item) => item.slug === normalizedSlug)
+        const nextUpload = mergeUploads(existing, {
+          slug: normalizedSlug,
+          title: metadata?.title,
+          images,
+        })
+        const remainingUploads = prev.uploads.filter((item) => item.slug !== normalizedSlug)
+        const nextState: PendingChangesState = {
+          uploads: [...remainingUploads, nextUpload],
+          deletes: prev.deletes.filter((item) => item !== normalizedSlug),
+        }
+        assertWithinStorageLimit(nextState)
+        return nextState
+      })
+    },
+    [],
+  )
 
   const removeUpload = useCallback((slug: string) => {
     const normalizedSlug = sanitizeSlug(slug)
@@ -182,6 +240,7 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
       state,
       addUpload,
       removeUpload,
+      appendImages,
       addDelete,
       removeDelete,
       clearAll,
@@ -190,7 +249,18 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
       hasPending,
       isReady,
     }),
-    [state, addUpload, removeUpload, addDelete, removeDelete, clearAll, storageUsed, hasPending, isReady],
+    [
+      state,
+      addUpload,
+      removeUpload,
+      appendImages,
+      addDelete,
+      removeDelete,
+      clearAll,
+      storageUsed,
+      hasPending,
+      isReady,
+    ],
   )
 
   return <PendingChangesContext.Provider value={value}>{children}</PendingChangesContext.Provider>
@@ -213,8 +283,30 @@ export function validateImageSize(file: File): void {
 }
 
 export function estimateTotalUploadSize(upload: PendingUpload): number {
-  const markdownBytes = encoder ? encoder.encode(upload.markdown).length : upload.markdown.length
-  const imagesBytes = upload.images.reduce((total, image) => total + image.size, 0)
+  const markdownLength = upload.markdown ? upload.markdown.length : 0
+  const markdownBytes = encoder ? encoder.encode(upload.markdown ?? "").length : markdownLength
+  const imagesBytes = (upload.images ?? []).reduce((total, image) => total + image.size, 0)
   return markdownBytes + imagesBytes
 }
 
+function ensureUniqueImageName(name: string, usedNames: Set<string>): string {
+  if (!usedNames.has(name)) {
+    usedNames.add(name)
+    return name
+  }
+
+  const extensionMatch = name.match(/\.([a-z0-9]+)$/i)
+  const extension = extensionMatch ? `.${extensionMatch[1]}` : ""
+  const base = extension ? name.slice(0, -extension.length) : name
+
+  let attempt = 1
+  let candidate = `${base}-${attempt}${extension}`
+
+  while (usedNames.has(candidate)) {
+    attempt += 1
+    candidate = `${base}-${attempt}${extension}`
+  }
+
+  usedNames.add(candidate)
+  return candidate
+}
