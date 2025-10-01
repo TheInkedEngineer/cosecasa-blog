@@ -200,11 +200,13 @@ export function HomePageClient({ articles, categories }: HomePageClientProps) {
 
 function LinkCard({ article, className, children }: { article: Article; className?: string; children: ReactNode }) {
   return (
-    <Link
-      href={`/${article.categorySlug}/${article.id}`}
-      className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/60 focus-visible:ring-offset-2"
-    >
-      <Card className={cn("h-full transition hover:-translate-y-1 hover:shadow-lg", className)}>{children}</Card>
-    </Link>
+    <Card className={cn("h-full transition hover:-translate-y-1 hover:shadow-lg", className)}>
+      <Link
+        href={`/${article.categorySlug}/${article.id}`}
+        className="flex h-full flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/60 focus-visible:ring-offset-2"
+      >
+        {children}
+      </Link>
+    </Card>
   )
 }
