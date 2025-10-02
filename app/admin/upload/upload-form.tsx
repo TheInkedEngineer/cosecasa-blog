@@ -24,6 +24,7 @@ export function UploadForm() {
   const [markdownFile, setMarkdownFile] = useState<File | null>(null)
   const [images, setImages] = useState<LocalImage[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formError, setFormError] = useState<string | null>(null)
   
   const router = useRouter()
   const { addUpload } = usePendingChanges()
@@ -154,6 +155,7 @@ export function UploadForm() {
     }
 
     setIsSubmitting(true)
+    setFormError(null)
 
     try {
       const markdownContent = await markdownFile.text()
@@ -163,12 +165,6 @@ export function UploadForm() {
       }
 
       const extractedTitle = extractTitleFromFrontmatter(markdownContent)
-
-      if (!extractedTitle) {
-        throw new Error(
-          "Il file markdown deve contenere un titolo nel frontmatter (chiave `title`).",
-        )
-      }
 
       const slug = createSlug(extractedTitle) || "untitled"
 
@@ -210,6 +206,8 @@ export function UploadForm() {
         error instanceof Error
           ? error.message
           : "Impossibile aggiungere l'articolo alle modifiche pendenti. Riprova."
+
+      setFormError(message)
 
       toast({
         variant: "destructive",
@@ -338,6 +336,15 @@ export function UploadForm() {
               L'articolo verrà salvato localmente nelle modifiche in sospeso. Premi "Pubblica" dalla dashboard quando vuoi creare il commit su GitHub.
             </p>
           </div>
+
+          {formError ? (
+            <p
+              role="alert"
+              className="mt-2 inline-block rounded-md border border-destructive/50 bg-destructive px-4 py-3 text-sm font-medium text-white"
+            >
+              {formError}
+            </p>
+          ) : null}
         </form>
       </CardContent>
     </Card>
@@ -385,10 +392,27 @@ function formatFileSize(size: number): string {
   return `${(size / 1024 / 1024).toFixed(2)} MB`
 }
 
-function extractTitleFromFrontmatter(markdown: string): string | null {
-  const match = markdown.match(/^---\s*\n([\s\S]*?)\n---/)
+function extractTitleFromFrontmatter(markdown: string): string {
+  const trimmed = markdown.trimStart()
+  const [firstLineRaw = ""] = trimmed.split(/\r?\n/, 1)
+  const firstLine = firstLineRaw.trim()
+  const normalizedFirstLine = firstLine.replace(/\s+/g, "")
+
+  if (!trimmed.startsWith("---")) {
+    if (/^[\u2013\u2014]+$/u.test(normalizedFirstLine)) {
+      throw new Error("Il frontmatter deve iniziare con tre trattini semplici `---`, non con il trattino lungo `—`.")
+    }
+    throw new Error("Il file markdown deve iniziare con un frontmatter YAML delimitato da `---` su una riga dedicata.")
+  }
+
+  const match = trimmed.match(/^---\s*\n([\s\S]*?)\n(---)/)
   if (!match) {
-    return null
+    throw new Error("Il frontmatter deve essere chiuso da una seconda riga con `---`.")
+  }
+
+  const closingDelimiter = match[2]
+  if (closingDelimiter !== "---") {
+    throw new Error("Il frontmatter deve essere chiuso con tre trattini `---`.")
   }
 
   const lines = match[1]
@@ -412,5 +436,6 @@ function extractTitleFromFrontmatter(markdown: string): string | null {
     }
   }
 
-  return null
+  throw new Error("Nel frontmatter manca la chiave obbligatoria `title`.")
 }
+

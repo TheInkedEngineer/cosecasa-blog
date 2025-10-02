@@ -1,6 +1,7 @@
 import matter from "gray-matter"
 import { remark } from "remark"
 import remarkParse from "remark-parse"
+import remarkBreaks from "remark-breaks"
 import remarkHtml from "remark-html"
 import sanitizeHtml from "sanitize-html"
 
@@ -39,6 +40,7 @@ export async function parseMarkdown(markdownText: string, slug: string): Promise
   // Convert Markdown to HTML using remark
   const processedContent = await remark()
     .use(remarkParse)
+    .use(remarkBreaks) // Treat single newlines as <br> (GitHub-flavored Markdown)
     .use(remarkHtml, { sanitize: false }) // We'll sanitize separately for more control
     .process(contentWithResolvedImages)
 
