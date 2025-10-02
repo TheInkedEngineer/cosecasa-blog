@@ -31,12 +31,13 @@ export async function fetchArticlesFromGitHub(): Promise<ArticleRecord[]> {
 
       const parsed = await parseMarkdown(markdownText, slug)
 
+      // Look for banner image (banner.png, banner.jpg, banner.webp, etc.)
       const articleFiles = await listDirectoryContents(`articles/${slug}`)
-      const uploadedImages = articleFiles
-        .filter((entry) => entry.type === "file" && IMAGE_PATTERN.test(entry.name))
-        .map((entry) => getRawFileUrl(entry.path))
+      const bannerImage = articleFiles.find(
+        (entry) => entry.type === "file" && /^banner\.(png|jpe?g|webp|gif|svg)$/i.test(entry.name)
+      )
 
-      const imageUrl = extractFirstImage(parsed.htmlContent) || uploadedImages[0]
+      const imageUrl = bannerImage ? getRawFileUrl(bannerImage.path) : undefined
 
       articles.push({
         slug,
