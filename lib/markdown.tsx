@@ -25,6 +25,12 @@ const getCachedArticles = cache(async (): Promise<ArticleRecord[]> => {
   return await fetchArticlesFromGitHub()
 })
 
+// Allows server actions to flush the memoized GitHub fetch when new content lands
+export function clearArticlesCache(): void {
+  const cached = getCachedArticles as typeof getCachedArticles & { clear?: () => void }
+  cached.clear?.()
+}
+
 /**
  * Map ArticleRecord to Post interface
  * Infers category and subcategory from tags

@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache"
 import { currentUser } from "@clerk/nextjs/server"
 
+import { clearArticlesCache } from "@/lib/markdown"
+
 import {
   createBlob,
   createCommit,
@@ -66,6 +68,7 @@ export async function publishChangesAction(uploads: PublishUpload[], deletes: st
 
     try {
       await updateMain(commitSha)
+      clearArticlesCache()
     } catch (error: unknown) {
       if (isOctokitConflict(error)) {
         return {

@@ -7,6 +7,7 @@ import { spacing, typography } from "@/lib/design-system"
 import { cn } from "@/lib/utils"
 
 import { PublishButton } from "./publish-button"
+import { ClearCacheButton } from "./clear-cache-button"
 import { PendingSummary } from "./pending-summary"
 import { RepoExplorer } from "./repo-explorer"
 
@@ -62,6 +63,7 @@ export default function AdminDashboardPage({ searchParams }: AdminDashboardPageP
               </Title>
               <div className="flex flex-wrap items-center gap-3">
                 <PublishButton />
+                <ClearCacheButton />
                 <Link
                   href="/"
                   className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground shadow-sm transition hover:bg-muted"

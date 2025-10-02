@@ -21,11 +21,10 @@ interface LocalImage {
 const MAX_MARKDOWN_SIZE_BYTES = 2 * 1024 * 1024
 
 export function UploadForm() {
-  const [title, setTitle] = useState("")
   const [markdownFile, setMarkdownFile] = useState<File | null>(null)
   const [images, setImages] = useState<LocalImage[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
-
+  
   const router = useRouter()
   const { addUpload } = usePendingChanges()
 
@@ -145,11 +144,11 @@ export function UploadForm() {
       return
     }
 
-    if (!title.trim() || !markdownFile) {
+    if (!markdownFile) {
       toast({
         variant: "destructive",
         title: "Compila i campi richiesti",
-        description: "Inserisci un titolo e seleziona il file markdown dell'articolo.",
+        description: "Seleziona il file markdown dell'articolo.",
       })
       return
     }
@@ -157,12 +156,21 @@ export function UploadForm() {
     setIsSubmitting(true)
 
     try {
-      const slug = createSlug(title) || "untitled"
       const markdownContent = await markdownFile.text()
 
       if (!markdownContent.trim()) {
         throw new Error("Il file markdown non può essere vuoto.")
       }
+
+      const extractedTitle = extractTitleFromFrontmatter(markdownContent)
+
+      if (!extractedTitle) {
+        throw new Error(
+          "Il file markdown deve contenere un titolo nel frontmatter (chiave `title`).",
+        )
+      }
+
+      const slug = createSlug(extractedTitle) || "untitled"
 
       const usedNames = new Set<string>()
       const imagePayload = [] as Array<{ name: string; dataUrl: string; size: number }>
@@ -176,7 +184,7 @@ export function UploadForm() {
 
       addUpload({
         slug,
-        title: title.trim(),
+        title: extractedTitle,
         markdown: markdownContent,
         images: imagePayload,
       })
@@ -186,7 +194,6 @@ export function UploadForm() {
         description: "Apri la pagina principale dell'admin e pubblica quando sei pronto.",
       })
 
-      setTitle("")
       setMarkdownFile(null)
       setImages((prev) => {
         prev.forEach((image) => URL.revokeObjectURL(image.preview))
@@ -214,28 +221,12 @@ export function UploadForm() {
     }
   }
 
-  const isSubmitDisabled = !title.trim() || !markdownFile || isSubmitting
+  const isSubmitDisabled = !markdownFile || isSubmitting
 
   return (
     <Card>
       <CardContent className="space-y-6 p-6">
         <form className="space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-2">
-            <label htmlFor="title" className="block text-sm font-medium text-muted-foreground">
-              Titolo dell'articolo
-            </label>
-            <input
-              id="title"
-              name="title"
-              type="text"
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
-              placeholder="Es. La danza della luce a Firenze"
-              className="block w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary/40"
-              autoComplete="off"
-            />
-          </div>
-
           <div className="space-y-2">
             <span className="block text-sm font-medium text-muted-foreground">File Markdown (.md)</span>
             {!markdownFile ? (
@@ -392,4 +383,34 @@ function formatFileSize(size: number): string {
   if (size < 1024) return `${size} B`
   if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`
   return `${(size / 1024 / 1024).toFixed(2)} MB`
+}
+
+function extractTitleFromFrontmatter(markdown: string): string | null {
+  const match = markdown.match(/^---\s*\n([\s\S]*?)\n---/)
+  if (!match) {
+    return null
+  }
+
+  const lines = match[1]
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0)
+
+  for (const line of lines) {
+    const separatorIndex = line.indexOf(":")
+    if (separatorIndex === -1) {
+      continue
+    }
+    const key = line.slice(0, separatorIndex).trim().toLowerCase()
+    if (key !== "title") {
+      continue
+    }
+    const rawValue = line.slice(separatorIndex + 1).trim()
+    const unquoted = rawValue.replace(/^['"]/, "").replace(/['"]$/, "")
+    if (unquoted.length > 0) {
+      return unquoted
+    }
+  }
+
+  return null
 }
