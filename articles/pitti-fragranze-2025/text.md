@@ -8,7 +8,7 @@ tags: profumi
 
 > Dal 12 al 14 settembre 2025 la Stazione Leopolda di Firenze ha ospitato la 23ª edizione di Pitti Fragranze
 
-![](intro.jpg)
+![](banner.jpg)
 
 Per l’edizione 2025 di Pitti Fragranze, il tema-guida “Composition” ha sviluppato molti percorsi olfattivi da parte dei brand, grazie all’idea di accostamento, contrappunto e costruzione delle fragranze. 
 
