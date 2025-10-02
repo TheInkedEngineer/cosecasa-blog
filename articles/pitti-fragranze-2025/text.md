@@ -17,7 +17,7 @@ Con i suoi 258 marchi, Fragranze è l’appuntamento di riferimento per scoprire
 
 Quasi 2.200 compratori arrivati a Firenze per il salone, in forte crescita (+32%) rispetto a un anno fa, con presenze di operatori di altissima qualità e sempre più internazionali.
 
-Spagna, Germania, Francia e Svizzera in testa alle presenze estere, forte aumento anche per i compratori italiani. \
+Spagna, Germania, Francia e Svizzera in testa alle presenze estere, forte aumento anche per i compratori italiani.
 
 I trend del momento sono apparsi chiari: giocare con note gourmand e insolite come pop corn, banana e ciliegia, accesi da note di vaniglia. L’intento è quello di stupire, creando mix di note olfatti decisamente originali e non appartenenti alla profumeria classica. Molte maison hanno costruito i loro lanci attorno all’idea di contrasti (chiaro/scuro, dolce/amaro, naturale/artificiale). 
 
