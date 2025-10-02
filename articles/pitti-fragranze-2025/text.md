@@ -1,10 +1,8 @@
 ---
-title: Pitti Fragranze 2025  
-date: 2025-10-02 
-tags: profumi  
+title: Pitti Fragranze 2025
+date: 2025-10-02
+tags: profumi
 ---
-
-# Pitti Fragranze 2025
 
 ## Dal 12 al 14 settembre 2025 la Stazione Leopolda di Firenze ha ospitato la 23ª edizione di Pitti Fragranze
 

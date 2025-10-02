@@ -1,9 +1,10 @@
 import matter from "gray-matter"
-import { remark } from "remark"
+import { unified } from "unified"
 import remarkParse from "remark-parse"
 import remarkGfm from "remark-gfm"
-import remarkHtml from "remark-html"
-import sanitizeHtml from "sanitize-html"
+import remarkRehype from "remark-rehype"
+import rehypeHighlight from "rehype-highlight"
+import rehypeStringify from "rehype-stringify"
 
 import { getRawFileUrl } from "./github-api"
 
@@ -20,7 +21,7 @@ export interface ParsedMarkdown {
 
 /**
  * Parse a Markdown file with YAML frontmatter
- * Extracts metadata and converts Markdown to sanitized HTML
+ * Extracts metadata and converts Markdown to HTML with syntax highlighting
  */
 export async function parseMarkdown(markdownText: string, slug: string): Promise<ParsedMarkdown> {
   // Parse frontmatter using gray-matter
@@ -37,45 +38,18 @@ export async function parseMarkdown(markdownText: string, slug: string): Promise
   // Replace relative image paths with full GitHub raw URLs
   const contentWithResolvedImages = resolveImagePaths(content, slug)
 
-  // Convert Markdown to HTML using remark
-  const processedContent = await remark()
+  const processedContent = await unified()
     .use(remarkParse)
-    .use(remarkGfm) // GitHub-flavored Markdown: breaks, tables, strikethrough, etc.
-    .use(remarkHtml, { sanitize: false }) // We'll sanitize separately for more control
+    .use(remarkGfm)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeHighlight, {
+      detect: false,
+      subset: ["swift", "javascript", "typescript", "css", "html", "bash", "json"],
+    })
+    .use(rehypeStringify, { allowDangerousHtml: true })
     .process(contentWithResolvedImages)
 
-  const rawHtml = String(processedContent)
-
-  // Sanitize HTML to prevent XSS
-  const htmlContent = sanitizeHtml(rawHtml, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat([
-      "img",
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "h5",
-      "h6",
-      "br",
-      "figure",
-      "figcaption",
-      "table",
-      "thead",
-      "tbody",
-      "tr",
-      "th",
-      "td",
-      "del",
-    ]),
-    allowedAttributes: {
-      ...sanitizeHtml.defaults.allowedAttributes,
-      img: ["src", "alt", "title", "width", "height"],
-      a: ["href", "title", "target", "rel"],
-      th: ["align"],
-      td: ["align"],
-    },
-    allowedSchemes: ["http", "https", "mailto"],
-  })
+  const htmlContent = processedContent.toString()
 
   return {
     frontmatter: {

@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge"
 import { Title } from "@/components/ui/title"
 import { spacing } from "@/lib/design-system"
 import { cn } from "@/lib/utils"
@@ -9,7 +8,7 @@ interface ArticleHeaderProps {
   category: string
 }
 
-export function ArticleHeader({ title, image, category }: ArticleHeaderProps) {
+export function ArticleHeader({ title, image }: ArticleHeaderProps) {
   return (
     <header className="relative">
       {image && (
@@ -21,9 +20,6 @@ export function ArticleHeader({ title, image, category }: ArticleHeaderProps) {
       <div className={cn(spacing.containerNarrow, 'px-4 py-8')}>
         <div className={image ? 'relative -mt-32 z-10' : ''}>
           <div className={cn(image && 'bg-background/95 backdrop-blur-sm rounded-lg p-8 shadow-lg')}>
-            <Badge variant="secondary" className="mb-4 capitalize">
-              {category}
-            </Badge>
             <Title as="h1" margin="sm" className="text-balance">
               {title}
             </Title>

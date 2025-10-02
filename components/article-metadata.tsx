@@ -1,6 +1,5 @@
 import { Badge } from "@/components/ui/badge"
-import { Calendar, User, Tag } from "lucide-react"
-import Link from "next/link"
+import { Calendar, Tag } from "lucide-react"
 import type { PostMetadata } from "@/lib/markdown"
 
 interface ArticleMetadataProps {
@@ -21,12 +20,6 @@ export function ArticleMetadata({ metadata }: ArticleMetadataProps) {
             })}
           </time>
         </div>
-        {metadata.author && (
-          <div className="flex items-center gap-2">
-            <User className="h-4 w-4" />
-            <span>{metadata.author}</span>
-          </div>
-        )}
         <div className="flex items-center gap-2">
           <Tag className="h-4 w-4" />
           <Badge variant="outline" className="text-xs capitalize">
@@ -36,21 +29,6 @@ export function ArticleMetadata({ metadata }: ArticleMetadataProps) {
       </div>
 
       <p className="text-lg text-muted-foreground leading-relaxed text-balance">{metadata.excerpt}</p>
-
-      {metadata.tags.length > 0 && (
-        <div className="flex flex-wrap gap-2 mt-4">
-          {metadata.tags.map((tag) => (
-            <Link key={tag} href={`/tag/${encodeURIComponent(tag)}`}>
-              <Badge
-                variant="outline"
-                className="text-xs hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
-              >
-                {tag}
-              </Badge>
-            </Link>
-          ))}
-        </div>
-      )}
     </div>
   )
 }
