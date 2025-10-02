@@ -1,7 +1,7 @@
 import matter from "gray-matter"
 import { remark } from "remark"
 import remarkParse from "remark-parse"
-import remarkBreaks from "remark-breaks"
+import remarkGfm from "remark-gfm"
 import remarkHtml from "remark-html"
 import sanitizeHtml from "sanitize-html"
 
@@ -40,7 +40,7 @@ export async function parseMarkdown(markdownText: string, slug: string): Promise
   // Convert Markdown to HTML using remark
   const processedContent = await remark()
     .use(remarkParse)
-    .use(remarkBreaks) // Treat single newlines as <br> (GitHub-flavored Markdown)
+    .use(remarkGfm) // GitHub-flavored Markdown: breaks, tables, strikethrough, etc.
     .use(remarkHtml, { sanitize: false }) // We'll sanitize separately for more control
     .process(contentWithResolvedImages)
 
@@ -56,13 +56,23 @@ export async function parseMarkdown(markdownText: string, slug: string): Promise
       "h4",
       "h5",
       "h6",
+      "br",
       "figure",
       "figcaption",
+      "table",
+      "thead",
+      "tbody",
+      "tr",
+      "th",
+      "td",
+      "del",
     ]),
     allowedAttributes: {
       ...sanitizeHtml.defaults.allowedAttributes,
       img: ["src", "alt", "title", "width", "height"],
       a: ["href", "title", "target", "rel"],
+      th: ["align"],
+      td: ["align"],
     },
     allowedSchemes: ["http", "https", "mailto"],
   })
