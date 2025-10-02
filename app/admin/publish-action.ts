@@ -166,7 +166,7 @@ async function buildTreeEntries(uploads: PublishUpload[], deletes: string[]): Pr
       totalImageSize += image.size
       if (totalImageSize > MAX_TOTAL_IMAGE_SIZE) {
         throw new Error(
-          "Le immagini pendenti superano il limite totale di 8MB per una singola pubblicazione. Riduci il numero o la dimensione delle immagini.",
+          "Le immagini pendenti superano il limite totale di 4MB per una singola pubblicazione. Riduci il numero o la dimensione delle immagini.",
         )
       }
 

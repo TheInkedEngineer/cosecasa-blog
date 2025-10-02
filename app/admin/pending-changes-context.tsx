@@ -11,7 +11,7 @@ import {
 } from "react"
 
 const STORAGE_KEY = "cosecasa-admin-pending"
-const MAX_STORAGE_BYTES = 8 * 1024 * 1024 // ~8MB safe window inside localStorage limits
+const MAX_STORAGE_BYTES = 4 * 1024 * 1024 // ~8MB safe window inside localStorage limits
 const encoder = typeof TextEncoder !== "undefined" ? new TextEncoder() : null
 
 export const MAX_IMAGE_SIZE_BYTES = 2 * 1024 * 1024 // 2MB per image as defined in migration plan
@@ -64,7 +64,7 @@ function assertWithinStorageLimit(nextState: PendingChangesState) {
   const used = calculateStorageBytes(nextState)
   if (used > MAX_STORAGE_BYTES) {
     throw new Error(
-      "Pending changes exceed the safe local storage limit (~8MB). Publish or remove items before adding more.",
+      "Pending changes exceed the safe local storage limit (~4MB). Publish or remove items before adding more.",
     )
   }
 }
