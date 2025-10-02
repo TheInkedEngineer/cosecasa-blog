@@ -1,10 +1,12 @@
 ---
-title: Pitti Fragranze 2025
-date: 2025-10-02
-tags: profumi
+title: Pitti Fragranze 2025  
+date: 2025-10-02 
+tags: profumi  
 ---
 
-## Dal 12 al 14 settembre 2025 la Stazione Leopolda di Firenze ha ospitato la 23ª edizione di Pitti Fragranze
+# Pitti Fragranze 2025
+
+> Dal 12 al 14 settembre 2025 la Stazione Leopolda di Firenze ha ospitato la 23ª edizione di Pitti Fragranze
 
 ![](intro.jpg)
 
@@ -25,6 +27,6 @@ Si consolida infatti l’idea che skincare e profumeria si contaminino, con prod
 
 ![](soulandskin.jpg)
 
-## **Soul & Skin** Sezione Skincare
+## Soul & Skin Sezione Skincare
 
 **Annab Cosmetics** presenta Balance, la prima crema SPF+30 “senza filtri” (NOfilter UV complex®) che difende da UVA/UVB e dalla luce blu, combina microalga antismog, semi di lampone e alghe marine upcycled, con funzioni idratanti, illuminanti e rigeneranti. Ex giornalista di cronaca nera, cerca di dedicarsi alla bellezza e al tempo per se stessi, per raggiungere un benessere fatto di ingredienti naturali.
