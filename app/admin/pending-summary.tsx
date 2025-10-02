@@ -10,7 +10,7 @@ import { Card } from "@/components/ui/card"
 import { usePendingChanges } from "./pending-changes-context"
 
 export function PendingSummary() {
-  const { state, hasPending, storageUsed, storageLimit, isReady } = usePendingChanges()
+  const { state, hasPending, storageUsed, storageLimit, isReady, clearAll } = usePendingChanges()
 
   if (!isReady) {
     return null
@@ -18,6 +18,12 @@ export function PendingSummary() {
 
   const uploads = state.uploads
   const deletes = state.deletes
+
+  const handleDiscard = () => {
+    if (window.confirm("Vuoi davvero scartare tutte le modifiche non pubblicate?")) {
+      clearAll()
+    }
+  }
 
   if (!hasPending) {
     return (
@@ -50,6 +56,10 @@ export function PendingSummary() {
         <li>• {totalImages} immagini totali</li>
         <li>• Spazio locale: {formatBytes(storageUsed)} / {formatBytes(storageLimit)} ({usagePercent}%)</li>
       </ul>
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+        <span className="text-xs text-muted-foreground">Scarta tutto per ripartire da zero.</span>
+        <Button variant="destructive" size="sm" onClick={handleDiscard}>Scarta modifiche</Button>
+      </div>
     </Card>
   )
 }
