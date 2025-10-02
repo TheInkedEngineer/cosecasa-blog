@@ -6,7 +6,6 @@ export interface PostMetadata {
   title: string
   excerpt: string
   date: string
-  category: "cose" | "casa" | "persone"
   subcategory: string
   tags: string[]
   image?: string
@@ -33,11 +32,8 @@ export function clearArticlesCache(): void {
 
 /**
  * Map ArticleRecord to Post interface
- * Infers category and subcategory from tags
  */
 function mapArticleToPost(article: ArticleRecord): Post {
-  // Try to infer category from tags
-  const category = inferCategory(article.tags)
   const subcategory = article.tags[0] || "generale"
 
   return {
@@ -46,7 +42,6 @@ function mapArticleToPost(article: ArticleRecord): Post {
       title: article.title,
       excerpt: article.description,
       date: article.date,
-      category,
       subcategory,
       tags: article.tags,
       image: article.imageUrl,
@@ -57,29 +52,7 @@ function mapArticleToPost(article: ArticleRecord): Post {
   }
 }
 
-/**
- * Infer category from tags
- * Falls back to "cose" if no category-specific tag is found
- */
-function inferCategory(tags: string[]): "cose" | "casa" | "persone" {
-  const tagLower = tags.map((t) => t.toLowerCase())
-
-  if (
-    tagLower.some((t) =>
-      ["casa", "bagno", "cucina", "ristrutturazione", "design", "interior", "architettura"].includes(t),
-    )
-  ) {
-    return "casa"
-  }
-
-  if (tagLower.some((t) => ["persone", "ritratti", "incontri", "artigiani"].includes(t))) {
-    return "persone"
-  }
-
-  return "cose"
-}
-
-export async function getPostBySlug(category: string, slug: string): Promise<Post | null> {
+export async function getPostBySlug(slug: string): Promise<Post | null> {
   const articles = await getCachedArticles()
   const article = articles.find((a) => a.slug === slug)
 
@@ -87,29 +60,12 @@ export async function getPostBySlug(category: string, slug: string): Promise<Pos
     return null
   }
 
-  const post = mapArticleToPost(article)
-
-  // Verify category matches
-  if (post.metadata.category !== category) {
-    return null
-  }
-
-  return post
+  return mapArticleToPost(article)
 }
 
 export async function getAllPosts(): Promise<Post[]> {
   const articles = await getCachedArticles()
   return articles.map(mapArticleToPost)
-}
-
-export async function getPostsByCategory(category: string): Promise<Post[]> {
-  const posts = await getAllPosts()
-  return posts.filter((post) => post.metadata.category === category)
-}
-
-export async function getPostsBySubcategory(category: string, subcategory: string): Promise<Post[]> {
-  const posts = await getAllPosts()
-  return posts.filter((post) => post.metadata.category === category && post.metadata.subcategory === subcategory)
 }
 
 export async function getFeaturedPosts(limit = 6): Promise<Post[]> {
@@ -129,21 +85,13 @@ export async function getRelatedPosts(currentPost: Post, limit = 3): Promise<Pos
     return hasMatchingTags || sameSubcategory
   })
 
-  // If not enough related posts, fill with posts from same category
+  // If not enough related posts, fill with recent posts
   if (relatedPosts.length < limit) {
-    const categoryPosts = otherPosts.filter(
-      (post) => post.metadata.category === currentPost.metadata.category && !relatedPosts.includes(post),
-    )
-    relatedPosts.push(...categoryPosts.slice(0, limit - relatedPosts.length))
+    const recentPosts = otherPosts.filter((post) => !relatedPosts.includes(post))
+    relatedPosts.push(...recentPosts.slice(0, limit - relatedPosts.length))
   }
 
   return relatedPosts.slice(0, limit)
-}
-
-export async function getSubcategories(category: string): Promise<string[]> {
-  const posts = await getPostsByCategory(category)
-  const subcategories = [...new Set(posts.map((post) => post.metadata.subcategory))]
-  return subcategories.sort()
 }
 
 export async function getAllTags(): Promise<string[]> {

@@ -23,7 +23,7 @@ export function PostGrid({ posts }: PostGridProps) {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
       {posts.map((post) => (
-        <Link key={post.slug} href={`/${post.metadata.category}/${post.slug}`}>
+        <Link key={post.slug} href={`/${post.slug}`}>
           <Card interactive className="group border-0 bg-background h-full">
             <CardContent className="p-0">
               {post.metadata.image && (

@@ -10,19 +10,14 @@ import { RelatedPosts } from "@/components/related-posts"
 
 interface ArticlePageProps {
   params: {
-    category: string
     slug: string
   }
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-  const { category, slug } = params
+  const { slug } = params
 
-  if (!["cose", "casa", "persone"].includes(category)) {
-    notFound()
-  }
-
-  const post = await getPostBySlug(category, slug)
+  const post = await getPostBySlug(slug)
 
   if (!post) {
     notFound()
@@ -35,7 +30,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <Header />
       <main>
         <article>
-          <ArticleHeader title={post.metadata.title} image={post.metadata.image} category={post.metadata.category} />
+          <ArticleHeader title={post.metadata.title} image={post.metadata.image} category={post.metadata.subcategory} />
           <div className="container mx-auto px-4 py-8 max-w-4xl">
             <ArticleMetadata metadata={post.metadata} />
             <ArticleContent content={post.content} />
@@ -52,14 +47,13 @@ export async function generateStaticParams() {
   const posts = await getAllPosts()
 
   return posts.map((post) => ({
-    category: post.metadata.category,
     slug: post.slug,
   }))
 }
 
 export async function generateMetadata({ params }: ArticlePageProps) {
-  const { category, slug } = params
-  const post = await getPostBySlug(category, slug)
+  const { slug } = params
+  const post = await getPostBySlug(slug)
 
   if (!post) {
     return {

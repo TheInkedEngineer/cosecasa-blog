@@ -24,7 +24,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
         </Title>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.map((post) => (
-            <Link key={post.slug} href={`/${post.metadata.category}/${post.slug}`}>
+            <Link key={post.slug} href={`/${post.slug}`}>
               <Card interactive className="group border-0 bg-background h-full">
                 <CardContent className="p-0">
                   {post.metadata.image && (
@@ -39,7 +39,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
                   <div className="p-6">
                     <div className="flex items-center gap-2 mb-3">
                       <Badge variant="secondary" className="text-xs capitalize">
-                        {post.metadata.category}
+                        {post.metadata.subcategory}
                       </Badge>
                       <span className="text-xs text-muted-foreground">
                         {new Date(post.metadata.date).toLocaleDateString("it-IT", {
