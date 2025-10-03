@@ -1,6 +1,6 @@
 ---
 title: Blue Talisman Extrait – Ex Nihilo
-date: 2025-09M-25 
+date: 2025-09-25 
 tags: Beauty e Profumi
 ---
 
