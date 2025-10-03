@@ -8,7 +8,7 @@ import { Suspense } from "react"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "cosecasa.it - Storie di bellezza, cultura e vita quotidiana",
+  title: "cosecase.it - Storie di bellezza, cultura e vita quotidiana",
   description:
     "Un diario personale dove condivido le mie passioni per l'arte, i viaggi, il design e tutto ciò che rende la vita più bella e significativa.",
   generator: "v0.app",

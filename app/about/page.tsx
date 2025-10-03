@@ -119,7 +119,7 @@ export default function AboutPage() {
 }
 
 export const metadata = {
-  title: "Chi sono - cosecasa.it",
+  title: "Chi sono - cosecase.it",
   description:
     "Conosci Maria Rosa Sirotti, architetto e giornalista free-lance che racconta l'eccellenza italiana tra design, artigianato, fragranze e viaggi.",
 }

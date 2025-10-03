@@ -3,7 +3,7 @@
 ## 📊 Current State vs Portfolio Reference Comparison
 
 ### **Executive Summary**
-The Portfolio reference site has significantly better control over article rendering through custom CSS classes, while Cosecasa relies heavily on Tailwind prose utilities, limiting styling flexibility and causing several UX issues.
+The Portfolio reference site has significantly better control over article rendering through custom CSS classes, while cosecase relies heavily on Tailwind prose utilities, limiting styling flexibility and causing several UX issues.
 
 ---
 
@@ -36,7 +36,7 @@ export async function markdownToHtml(content: string): Promise<string> {
 - ✅ Code block language detection
 - ✅ More control over HTML output
 
-#### **Cosecasa (Current) - Using Remark + Manual Sanitization**
+#### **cosecase (Current) - Using Remark + Manual Sanitization**
 ```typescript
 // lib/markdown-parser.ts:40-78
 const processedContent = await remark()
@@ -92,7 +92,7 @@ This is the first paragraph (NO # Title heading here!)
 Content...
 ```
 
-#### **Cosecasa Current Approach (Wrong)**
+#### **cosecase Current Approach (Wrong)**
 ```typescript
 // app/[slug]/page.tsx:33
 <ArticleHeader title={post.metadata.title} />  // Title shown here
@@ -224,7 +224,7 @@ Remove the `# Title` line from markdown files, keep only frontmatter title.
 - ✅ Easy to modify all articles at once
 - ✅ Scoped to `.article-content` - doesn't affect other content
 
-#### **Cosecasa - Limited Tailwind Prose (16 lines)**
+#### **cosecase - Limited Tailwind Prose (16 lines)**
 ```tsx
 // components/article-content.tsx:8-23
 <div
@@ -276,7 +276,7 @@ Remove the `# Title` line from markdown files, keep only frontmatter title.
 
 **Result:** Beautiful code blocks with language-specific coloring
 
-#### **Cosecasa Has No Syntax Highlighting**
+#### **cosecase Has No Syntax Highlighting**
 - ❌ Code blocks are plain text
 - ❌ No language detection
 - ❌ No color scheme
@@ -298,7 +298,7 @@ Remove the `# Title` line from markdown files, keep only frontmatter title.
 
 **Result:** Perfect vertical rhythm, content breathes naturally
 
-#### **Cosecasa - Inconsistent**
+#### **cosecase - Inconsistent**
 ```tsx
 prose-h1:mb-6 prose-h1:mt-8  /* Only h1 has spacing */
 prose-h2:mb-4 prose-h2:mt-8  /* h2 has spacing */
@@ -433,7 +433,7 @@ export async function parseMarkdown(markdownText: string, slug: string): Promise
 /* Import syntax highlighting theme */
 @import "highlight.js/styles/github-dark.css";
 
-/* Article content wrapper - adapts to Cosecasa's brand colors */
+/* Article content wrapper - adapts to cosecase's brand colors */
 .article-content {
   @apply text-foreground;
 }
@@ -543,7 +543,7 @@ export async function parseMarkdown(markdownText: string, slug: string): Promise
   line-height: 1.6;
 }
 
-/* Syntax highlighting color overrides - Adapted to Cosecasa vibe */
+/* Syntax highlighting color overrides - Adapted to cosecase vibe */
 .article-content .hljs-keyword {
   color: #ff79c6 !important; /* Pink for keywords (let, const, function) */
 }
@@ -688,7 +688,7 @@ export async function parseMarkdown(markdownText: string, slug: string): Promise
 ```
 
 **Design Philosophy:**
-- ✅ Uses Cosecasa's existing CSS variables (`--brand-primary`, `--muted`, `--border`)
+- ✅ Uses cosecase's existing CSS variables (`--brand-primary`, `--muted`, `--border`)
 - ✅ Maintains Italian elegance with proper spacing
 - ✅ Dark code blocks for modern look
 - ✅ Mobile-responsive typography
@@ -815,7 +815,7 @@ npm install unified remark-rehype rehype-highlight rehype-stringify highlight.js
 
 ---
 
-## 🎨 Keeping Cosecasa's Vibe
+## 🎨 Keeping cosecase's Vibe
 
 **Design Principles Applied:**
 
@@ -920,4 +920,4 @@ npm install unified remark-rehype rehype-highlight rehype-stringify highlight.js
 
 ---
 
-*This plan maintains Cosecasa's elegant, Italian-inspired aesthetic while providing the same level of control found in the Portfolio reference site.*
+*This plan maintains cosecase's elegant, Italian-inspired aesthetic while providing the same level of control found in the Portfolio reference site.*

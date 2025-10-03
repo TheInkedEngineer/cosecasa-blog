@@ -57,12 +57,12 @@ export async function generateMetadata({ params }: ArticlePageProps) {
 
   if (!post) {
     return {
-      title: "Articolo non trovato - cosecasa.it",
+      title: "Articolo non trovato - cosecase.it",
     }
   }
 
   return {
-    title: `${post.metadata.title} - cosecasa.it`,
+    title: `${post.metadata.title} - cosecase.it`,
     description: post.metadata.excerpt,
     openGraph: {
       title: post.metadata.title,

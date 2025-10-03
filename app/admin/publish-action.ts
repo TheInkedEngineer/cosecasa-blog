@@ -210,7 +210,7 @@ function resolveAuthor(user: Awaited<ReturnType<typeof currentUser>> | null) {
     ? user.emailAddresses.find((address) => address.id === user.primaryEmailAddressId)
     : user.emailAddresses[0]
 
-  const email = primaryEmail?.emailAddress || "admin@cosecasa.it"
+  const email = primaryEmail?.emailAddress || "mariarosa.sirotti@gmail.com"
   const name = user.fullName || user.username || "Admin"
 
   return { name, email }

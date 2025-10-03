@@ -39,7 +39,7 @@ export default async function HomePage() {
                 <div className="rounded-[2.75rem] border border-border/60 bg-background/80 p-8 shadow-inner">
                   <Image
                     src="/logo.png"
-                    alt="Cosecasa logo"
+                    alt="Cosecase logo"
                     width={220}
                     height={220}
                     priority

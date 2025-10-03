@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react"
 
-const STORAGE_KEY = "cosecasa-admin-pending"
+const STORAGE_KEY = "cosecase-admin-pending"
 const MAX_STORAGE_BYTES = 4 * 1024 * 1024 // ~8MB safe window inside localStorage limits
 const encoder = typeof TextEncoder !== "undefined" ? new TextEncoder() : null
 

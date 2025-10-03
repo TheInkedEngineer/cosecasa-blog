@@ -49,7 +49,7 @@ export function generateMetadata({ params }: TagPageProps) {
   const decodedTag = decodeURIComponent(tag)
 
   return {
-    title: `Tag: ${decodedTag} - cosecasa.it`,
-    description: `Scopri tutti gli articoli taggati con "${decodedTag}" su cosecasa.it`,
+    title: `Tag: ${decodedTag} - cosecase.it`,
+    description: `Scopri tutti gli articoli taggati con "${decodedTag}" su cosecase.it`,
   }
 }

@@ -45,7 +45,7 @@ function mapArticleToPost(article: ArticleRecord): Post {
       subcategory,
       tags: article.tags,
       image: article.imageUrl,
-      author: "Cosecasa",
+      author: "cosecase",
       featured: false, // Can be enhanced later by checking a frontmatter field
     },
     content: article.htmlContent,
