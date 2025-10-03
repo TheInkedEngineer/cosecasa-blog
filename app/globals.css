@@ -164,7 +164,8 @@
     --tw-prose-headings: var(--brand-primary);
     --tw-prose-lead: var(--muted-foreground);
     --tw-prose-links: var(--primary);
-    --tw-prose-bold: var(--foreground);
+    --tw-prose-bold: var(--primary);
+    --tw-prose-italic: var(--primary);
     --tw-prose-counters: var(--muted-foreground);
     --tw-prose-bullets: var(--muted-foreground);
     --tw-prose-hr: var(--border);
