@@ -31,4 +31,4 @@ Si consolida infatti l’idea che skincare e profumeria si contaminino, con prod
 
 **Annab Cosmetics** presenta Balance, la prima crema SPF+30 “senza filtri” (NOfilter UV complex®) che difende da UVA/UVB e dalla luce blu, combina microalga antismog, semi di lampone e alghe marine upcycled, con funzioni idratanti, illuminanti e rigeneranti. Ex giornalista di cronaca nera, cerca di dedicarsi alla bellezza e al tempo per se stessi, per raggiungere un benessere fatto di ingredienti naturali.
 
-__qualcosa in corsivo__
+_qualcosa in corsivo_
