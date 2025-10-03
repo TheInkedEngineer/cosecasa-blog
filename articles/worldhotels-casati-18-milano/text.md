@@ -26,7 +26,7 @@ WorldHotel Casati 18 non è solo un hotel: è **un luogo che racconta Milano att
 
 Materiali pregiati, atmosfere calde e dettagli sartoriali danno vita a spazi eleganti e accoglienti, pensati per chi cerca un’esperienza autentica. _”Il Casati 18 è pensato per chi desidera vivere Milano in modo autentico, con stile e comfort_ - dichiara **Luca Cellammare, Direttore del WorldHotel Casati 18** - _Abbiamo voluto creare un luogo che fosse espressione del design italiano e dell’anima vibrante di Porta Venezia. Ogni dettaglio, dagli arredi alla proposta gastronomica, è stato studiato per offrire un’esperienza memorabile e profondamente legata alla città”_.
 
-![](2-.jpg)
+![](2-jpg.jpg)
 
 ![](6.jpg)
 
