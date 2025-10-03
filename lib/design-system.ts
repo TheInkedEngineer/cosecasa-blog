@@ -2,7 +2,7 @@ export const typography = {
   display: "font-serif text-5xl md:text-7xl font-bold leading-tight text-balance",
   hero: "font-serif text-4xl md:text-6xl font-semibold leading-tight text-balance",
   sectionTitle: "font-serif text-3xl md:text-4xl font-semibold leading-tight",
-  sectionSubtitle: "text-lg md:text-xl text-muted-foreground leading-relaxed",
+  sectionSubtitle: "text-lg md:text-l text-muted-foreground leading-relaxed",
   cardTitle: "font-serif text-xl font-semibold leading-snug",
   subheading: "font-serif text-lg font-medium leading-snug",
   eyebrow: "uppercase tracking-[0.28em] text-xs text-muted-foreground/80",

@@ -55,7 +55,9 @@ export default async function HomePage() {
                     margin="none"
                     className="text-balance text-3xl font-semibold tracking-tight md:text-4xl"
                   >
-                    Cose, case, luoghi e persone da scoprire
+                    Cose, case, luoghi 
+                    <br/>
+                    e persone da scoprire
                   </Title>
                   <p className={cn(typography.sectionSubtitle, 'mx-auto max-w-2xl text-balance pt-6 text-muted-foreground md:mx-0 md:text-left')}>
                     Storie di bellezza, cultura, eccellenza e qualità: il magazine online per rendere la casa più bella e la vita più piacevole
