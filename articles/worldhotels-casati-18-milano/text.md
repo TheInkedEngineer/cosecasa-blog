@@ -18,7 +18,7 @@ Una nuova identità per **il WorldHotel Casati 18 situato a Milano**, nella zona
 
 Un’evoluzione che consolida il posizionamento upper-upscale del brand e celebra l’eccellenza dell’ospitalità italiana, tra un **design ricercato, un’ospitalità sartoriale e uno spirito contemporaneo**. “_Il WorldHotel Casati 18 rappresenta una nuova tappa nel percorso di crescita di WorldHotels in Italia_ - commenta **Sara Digiesi, CEO di BWH Hotels Italy & South-East Europe** - _L’ingresso nella collezione Elite è il riconoscimento di una visione che mette al centro il valore dell’indipendenza, la qualità del servizio e la capacità di interpretare il territorio con stile e personalità”_.
 
-![](20251001_161920 copia.jpg)
+![](1.jpg)
 
 WorldHotel Casati 18 non è solo un hotel: è **un luogo che racconta Milano attraverso il design, l’ospitalità e l’identità locale**. Le **80 camere e suite**, completamente ripensate, sono il risultato di un progetto curato da architetti e brand italiani di riferimento come **Molteni&C, Flos e Roda**. 
 
@@ -26,7 +26,7 @@ WorldHotel Casati 18 non è solo un hotel: è **un luogo che racconta Milano att
 
 Materiali pregiati, atmosfere calde e dettagli sartoriali danno vita a spazi eleganti e accoglienti, pensati per chi cerca un’esperienza autentica. _”Il Casati 18 è pensato per chi desidera vivere Milano in modo autentico, con stile e comfort_ - dichiara **Luca Cellammare, Direttore del WorldHotel Casati 18** - _Abbiamo voluto creare un luogo che fosse espressione del design italiano e dell’anima vibrante di Porta Venezia. Ogni dettaglio, dagli arredi alla proposta gastronomica, è stato studiato per offrire un’esperienza memorabile e profondamente legata alla città”_.
 
-![](2.jpg)
+![](2-.jpg)
 
 ![](6.jpg)
 
