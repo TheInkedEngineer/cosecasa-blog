@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useTransition } from "react"
+import { useMemo, useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { Loader2, UploadCloud } from "lucide-react"
 
@@ -38,9 +38,19 @@ export function PublishButton() {
 
   const uploads = state.uploads
   const deletes = state.deletes
+  const imageDeletes = state.imageDeletes
 
-  const pendingCount = uploads.length + deletes.length
+  const pendingCount = uploads.length + deletes.length + imageDeletes.length
   const totalImages = uploads.reduce((total, upload) => total + (upload.images?.length ?? 0), 0)
+  const imageDeletesBySlug = useMemo(() => {
+    return imageDeletes.reduce<Record<string, string[]>>((acc, item) => {
+      if (!acc[item.slug]) {
+        acc[item.slug] = []
+      }
+      acc[item.slug].push(item.name)
+      return acc
+    }, {})
+  }, [imageDeletes])
 
   const handlePublish = () => {
     if (!hasPending || isPublishing) {
@@ -48,7 +58,7 @@ export function PublishButton() {
     }
 
     startTransition(async () => {
-      const result = await publishChangesAction(uploads, deletes)
+      const result = await publishChangesAction(uploads, deletes, imageDeletes)
 
       if (result.success) {
         clearAll()
@@ -116,7 +126,8 @@ export function PublishButton() {
             <ul className="mt-2 space-y-1 text-muted-foreground">
               <li>• {uploads.length} articoli da aggiungere o aggiornare</li>
               <li>• {deletes.length} articoli da eliminare</li>
-              <li>• {totalImages} immagini totali</li>
+              <li>• {totalImages} immagini da caricare</li>
+              <li>• {imageDeletes.length} immagini da eliminare</li>
             </ul>
           </div>
 
@@ -141,6 +152,20 @@ export function PublishButton() {
                 {deletes.map((slug) => (
                   <li key={slug}>
                     ✂︎ <span className="font-medium text-foreground">{slug}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+
+          {imageDeletes.length > 0 ? (
+            <div>
+              <p className="font-medium text-foreground">Immagini da eliminare</p>
+              <ul className="mt-2 space-y-1 text-muted-foreground">
+                {Object.entries(imageDeletesBySlug).map(([slug, names]) => (
+                  <li key={slug} className="truncate">
+                    ✂︎ <span className="font-medium text-foreground">{slug}</span>
+                    <span className="ml-2 text-xs">({names.join(", ")})</span>
                   </li>
                 ))}
               </ul>

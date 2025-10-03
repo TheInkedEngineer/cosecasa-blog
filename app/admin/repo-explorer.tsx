@@ -6,6 +6,7 @@ import { unstable_noStore as noStore } from "next/cache"
 import { listDirectoryContents, getRawFileUrl, type RepoContentEntry } from "@/lib/github-api"
 
 import { ArticleDeleteToggle } from "./article-delete-toggle"
+import { ArticleImageDeleteToggle } from "./article-image-delete-toggle"
 import { ArticleImagesUploader } from "./article-images-uploader"
 
 function formatSize(size: number): string {
@@ -106,6 +107,7 @@ export async function RepoExplorer({ prefix }: RepoExplorerProps) {
           const isMarkdown = file.name.toLowerCase() === "text.md"
           const icon = isMarkdown ? <FileText className="h-4 w-4" aria-hidden="true" /> : <Image className="h-4 w-4" aria-hidden="true" />
           const rawUrl = getRawFileUrl(file.path)
+          const canDeleteImage = Boolean(articleSlug) && !isMarkdown
           return (
             <li key={`file-${file.path}`} className="border-b border-border/70">
               <div className="flex flex-col gap-3 px-4 py-4 text-sm sm:grid sm:grid-cols-[minmax(0,6fr)_minmax(0,2fr)_minmax(0,2fr)] sm:items-center sm:gap-4 sm:px-6">
@@ -126,7 +128,13 @@ export async function RepoExplorer({ prefix }: RepoExplorerProps) {
                   </a>
                 </div>
                 <span className="text-xs text-muted-foreground sm:text-right">{formatSize(file.size)}</span>
-                <span className="text-xs text-muted-foreground sm:text-right">—</span>
+                {canDeleteImage ? (
+                  <div className="flex justify-end">
+                    <ArticleImageDeleteToggle slug={articleSlug!} imageName={file.name} />
+                  </div>
+                ) : (
+                  <span className="text-xs text-muted-foreground sm:text-right">—</span>
+                )}
               </div>
             </li>
           )

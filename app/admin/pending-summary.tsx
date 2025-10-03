@@ -18,6 +18,7 @@ export function PendingSummary() {
 
   const uploads = state.uploads
   const deletes = state.deletes
+  const imageDeletes = state.imageDeletes
 
   const handleDiscard = () => {
     if (window.confirm("Vuoi davvero scartare tutte le modifiche non pubblicate?")) {
@@ -53,7 +54,8 @@ export function PendingSummary() {
       <ul className="space-y-1 text-sm text-muted-foreground">
         <li>• {uploads.length} articoli da aggiungere o aggiornare</li>
         <li>• {deletes.length} articoli da eliminare</li>
-        <li>• {totalImages} immagini totali</li>
+        <li>• {totalImages} immagini da caricare</li>
+        <li>• {imageDeletes.length} immagini da eliminare</li>
         <li>• Spazio locale: {formatBytes(storageUsed)} / {formatBytes(storageLimit)} ({usagePercent}%)</li>
       </ul>
       <div className="flex flex-wrap items-center justify-between gap-3 pt-2">

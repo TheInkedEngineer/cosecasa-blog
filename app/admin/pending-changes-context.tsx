@@ -22,6 +22,11 @@ export interface PendingImage {
   size: number
 }
 
+export interface PendingImageDelete {
+  slug: string
+  name: string
+}
+
 export interface PendingUpload {
   slug: string
   title?: string
@@ -32,6 +37,7 @@ export interface PendingUpload {
 export interface PendingChangesState {
   uploads: PendingUpload[]
   deletes: string[]
+  imageDeletes: PendingImageDelete[]
 }
 
 interface PendingChangesContextValue {
@@ -41,6 +47,8 @@ interface PendingChangesContextValue {
   appendImages: (slug: string, images: PendingImage[], metadata?: { title?: string }) => void
   addDelete: (slug: string) => void
   removeDelete: (slug: string) => void
+  addImageDelete: (payload: PendingImageDelete) => void
+  removeImageDelete: (payload: PendingImageDelete) => void
   clearAll: () => void
   storageUsed: number
   storageLimit: number
@@ -48,7 +56,7 @@ interface PendingChangesContextValue {
   isReady: boolean
 }
 
-const defaultState: PendingChangesState = { uploads: [], deletes: [] }
+const defaultState: PendingChangesState = { uploads: [], deletes: [], imageDeletes: [] }
 
 const PendingChangesContext = createContext<PendingChangesContextValue | undefined>(undefined)
 
@@ -83,9 +91,15 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
       if (raw) {
         const parsed = JSON.parse(raw) as PendingChangesState
         if (parsed && Array.isArray(parsed.uploads) && Array.isArray(parsed.deletes)) {
+          const rawImageDeletes = Array.isArray(parsed.imageDeletes) ? parsed.imageDeletes : []
+          const sanitizedImageDeletes = rawImageDeletes.filter(
+            (item): item is PendingImageDelete =>
+              item && typeof item.slug === "string" && typeof item.name === "string",
+          )
           setState({
             uploads: parsed.uploads,
             deletes: parsed.deletes,
+            imageDeletes: sanitizedImageDeletes,
           })
         }
       }
@@ -103,7 +117,7 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      if (state.uploads.length === 0 && state.deletes.length === 0) {
+      if (state.uploads.length === 0 && state.deletes.length === 0 && state.imageDeletes.length === 0) {
         window.localStorage.removeItem(STORAGE_KEY)
       } else {
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
@@ -114,7 +128,7 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
   }, [state, isReady])
 
   const storageUsed = useMemo(() => calculateStorageBytes(state), [state])
-  const hasPending = state.uploads.length > 0 || state.deletes.length > 0
+  const hasPending = state.uploads.length > 0 || state.deletes.length > 0 || state.imageDeletes.length > 0
 
   const mergeUploads = (existing: PendingUpload | undefined, incoming: PendingUpload): PendingUpload => {
     const usedNames = new Set<string>()
@@ -154,9 +168,13 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
         images: upload.images ?? [],
       })
       const remainingUploads = prev.uploads.filter((item) => item.slug !== normalizedSlug)
+      const incomingNames = new Set((upload.images ?? []).map((image) => image.name))
       const nextState: PendingChangesState = {
         uploads: [...remainingUploads, nextUpload],
         deletes: prev.deletes.filter((slug) => slug !== normalizedSlug),
+        imageDeletes: prev.imageDeletes.filter(
+          (item) => item.slug !== normalizedSlug || !incomingNames.has(item.name),
+        ),
       }
       assertWithinStorageLimit(nextState)
       return nextState
@@ -178,9 +196,13 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
           images,
         })
         const remainingUploads = prev.uploads.filter((item) => item.slug !== normalizedSlug)
+        const appendedNames = new Set(images.map((image) => image.name))
         const nextState: PendingChangesState = {
           uploads: [...remainingUploads, nextUpload],
           deletes: prev.deletes.filter((item) => item !== normalizedSlug),
+          imageDeletes: prev.imageDeletes.filter(
+            (item) => item.slug !== normalizedSlug || !appendedNames.has(item.name),
+          ),
         }
         assertWithinStorageLimit(nextState)
         return nextState
@@ -195,6 +217,7 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
       const nextState: PendingChangesState = {
         uploads: prev.uploads.filter((item) => item.slug !== normalizedSlug),
         deletes: prev.deletes,
+        imageDeletes: prev.imageDeletes,
       }
       return nextState
     })
@@ -212,6 +235,7 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
       const nextState: PendingChangesState = {
         uploads: prev.uploads.filter((item) => item.slug !== normalizedSlug),
         deletes: [...prev.deletes, normalizedSlug],
+        imageDeletes: prev.imageDeletes.filter((item) => item.slug !== normalizedSlug),
       }
       assertWithinStorageLimit(nextState)
       return nextState
@@ -223,6 +247,45 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
     setState((prev) => ({
       uploads: prev.uploads,
       deletes: prev.deletes.filter((item) => item !== normalizedSlug),
+      imageDeletes: prev.imageDeletes,
+    }))
+  }, [])
+
+  const addImageDelete = useCallback((payload: PendingImageDelete) => {
+    const normalizedSlug = sanitizeSlug(payload.slug)
+    const imageName = payload.name.trim()
+    if (!normalizedSlug || !imageName) {
+      return
+    }
+    setState((prev) => {
+      const alreadyMarked = prev.imageDeletes.some(
+        (item) => item.slug === normalizedSlug && item.name === imageName,
+      )
+      if (alreadyMarked) {
+        return prev
+      }
+      const nextState: PendingChangesState = {
+        uploads: prev.uploads,
+        deletes: prev.deletes,
+        imageDeletes: [...prev.imageDeletes, { slug: normalizedSlug, name: imageName }],
+      }
+      assertWithinStorageLimit(nextState)
+      return nextState
+    })
+  }, [])
+
+  const removeImageDelete = useCallback((payload: PendingImageDelete) => {
+    const normalizedSlug = sanitizeSlug(payload.slug)
+    const imageName = payload.name.trim()
+    if (!normalizedSlug || !imageName) {
+      return
+    }
+    setState((prev) => ({
+      uploads: prev.uploads,
+      deletes: prev.deletes,
+      imageDeletes: prev.imageDeletes.filter(
+        (item) => !(item.slug === normalizedSlug && item.name === imageName),
+      ),
     }))
   }, [])
 
@@ -243,6 +306,8 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
       appendImages,
       addDelete,
       removeDelete,
+      addImageDelete,
+      removeImageDelete,
       clearAll,
       storageUsed,
       storageLimit: MAX_STORAGE_BYTES,
@@ -256,6 +321,8 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
       appendImages,
       addDelete,
       removeDelete,
+      addImageDelete,
+      removeImageDelete,
       clearAll,
       storageUsed,
       hasPending,

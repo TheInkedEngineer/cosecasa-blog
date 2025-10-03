@@ -261,7 +261,7 @@
 
   .article-content strong {
     font-weight: 600;
-    color: var(--foreground);
+    color: var(--brand-primary);
   }
 
   .article-content em {

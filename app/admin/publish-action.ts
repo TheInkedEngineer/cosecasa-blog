@@ -28,6 +28,11 @@ export interface PublishUpload {
   images: PublishImage[]
 }
 
+export interface PublishImageDelete {
+  slug: string
+  name: string
+}
+
 interface PublishResult {
   success: boolean
   commitSha?: string
@@ -36,8 +41,16 @@ interface PublishResult {
 
 const MAX_TOTAL_IMAGE_SIZE = 8 * 1024 * 1024 // Defensive limit for combined image payload in a single publish
 
-export async function publishChangesAction(uploads: PublishUpload[], deletes: string[]): Promise<PublishResult> {
-  if ((!uploads || uploads.length === 0) && (!deletes || deletes.length === 0)) {
+export async function publishChangesAction(
+  uploads: PublishUpload[],
+  deletes: string[],
+  imageDeletes: PublishImageDelete[],
+): Promise<PublishResult> {
+  if (
+    (!uploads || uploads.length === 0) &&
+    (!deletes || deletes.length === 0) &&
+    (!imageDeletes || imageDeletes.length === 0)
+  ) {
     return { success: false, error: "Non ci sono modifiche da pubblicare." }
   }
 
@@ -50,11 +63,12 @@ export async function publishChangesAction(uploads: PublishUpload[], deletes: st
   try {
     const normalizedUploads = uploads.map(normalizeUpload)
     const normalizedDeletes = [...new Set(deletes.map(normalizeSlug))]
+    const normalizedImageDeletes = normalizeImageDeletes(imageDeletes)
 
     const parentSha = await getCurrentMainSha()
     const baseTreeSha = await getCommitTreeSha(parentSha)
 
-    const treeEntries = await buildTreeEntries(normalizedUploads, normalizedDeletes)
+    const treeEntries = await buildTreeEntries(normalizedUploads, normalizedDeletes, normalizedImageDeletes)
 
     if (!treeEntries.length) {
       return { success: false, error: "Non è stato possibile determinare alcuna modifica da pubblicare." }
@@ -63,7 +77,7 @@ export async function publishChangesAction(uploads: PublishUpload[], deletes: st
     const treeSha = await createTree(baseTreeSha, treeEntries)
 
     const author = resolveAuthor(user)
-    const commitMessage = buildCommitMessage(normalizedUploads, normalizedDeletes)
+    const commitMessage = buildCommitMessage(normalizedUploads, normalizedDeletes, normalizedImageDeletes)
     const commitSha = await createCommit(commitMessage, treeSha, parentSha, author)
 
     try {
@@ -146,7 +160,29 @@ function sanitizeFileName(name: string): string {
   return cleaned || "asset"
 }
 
-async function buildTreeEntries(uploads: PublishUpload[], deletes: string[]): Promise<GitTreeEntry[]> {
+function normalizeImageDeletes(imageDeletes: PublishImageDelete[]): PublishImageDelete[] {
+  const unique = new Map<string, PublishImageDelete>()
+
+  for (const entry of imageDeletes ?? []) {
+    if (!entry) {
+      continue
+    }
+    const slug = normalizeSlug(entry.slug)
+    const name = sanitizeFileName(entry.name)
+    const key = `${slug}/${name}`
+    if (!unique.has(key)) {
+      unique.set(key, { slug, name })
+    }
+  }
+
+  return Array.from(unique.values())
+}
+
+async function buildTreeEntries(
+  uploads: PublishUpload[],
+  deletes: string[],
+  imageDeletes: PublishImageDelete[],
+): Promise<GitTreeEntry[]> {
   const entries: GitTreeEntry[] = []
 
   let totalImageSize = 0
@@ -190,6 +226,15 @@ async function buildTreeEntries(uploads: PublishUpload[], deletes: string[]): Pr
     })
   }
 
+  for (const { slug, name } of imageDeletes) {
+    entries.push({
+      path: `articles/${slug}/${name}`,
+      mode: "100644",
+      type: "blob",
+      sha: null,
+    })
+  }
+
   return entries
 }
 
@@ -216,15 +261,20 @@ function resolveAuthor(user: Awaited<ReturnType<typeof currentUser>> | null) {
   return { name, email }
 }
 
-function buildCommitMessage(uploads: PublishUpload[], deletes: string[]): string {
+function buildCommitMessage(
+  uploads: PublishUpload[],
+  deletes: string[],
+  imageDeletes: PublishImageDelete[],
+): string {
   const additions = uploads.length
-  const removals = deletes.length
+  const removals = deletes.length + imageDeletes.length
   const header = `Publish articles (+${additions}, -${removals})`
 
   const uploadLines = uploads.map((upload) => `- ${upload.slug}`)
   const deleteLines = deletes.map((slug) => `✂︎ ${slug}`)
+  const imageDeleteLines = imageDeletes.map(({ slug, name }) => `✂︎ ${slug}/${name}`)
 
-  const bodyLines = [...uploadLines, ...deleteLines]
+  const bodyLines = [...uploadLines, ...deleteLines, ...imageDeleteLines]
   const body = bodyLines.length ? `${bodyLines.join("\n")}\n\n` : "\n"
 
   return `${header}\n${body}🤖 via Admin Panel`
