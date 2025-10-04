@@ -25,6 +25,7 @@ I **trend del momento** sono apparsi chiari: giocare con **note gourmand e insol
 Allo stesso tempo è emersa con forza una nuova area dedicata alla cura della pelle, **Soul & Skin**, che porta al centro dell’attenzione prodotti skincare con un **approccio sia scientifico sia rituale**. Si consolida infatti l’idea che **skincare e profumeria si contaminino**, con prodotti che propongono **efficacia tecnica e narrazione sensoriale** e molti nuovi lanci skincare lo confermano.
 
 **FRAGRANZE**
+
 Per questa sezione, abbiamo selezionato alcune **new entry** insieme a **marchi consolidati** particolarmente rappresentativi.
 
 ![](5)
@@ -62,6 +63,7 @@ Per questa sezione, abbiamo selezionato alcune **new entry** insieme a **marchi 
 **Thomas De Monaco Parfums** mette al centro della nuova collezione i profumieri, presentando The Artist con fragranze come Fleur Danger, Jade Amour e Neo Eden. Una maison di fragranze indipendente dove creatività, artigianalità ed emozione definiscono una visione moderna della profumeria. Si ispira a un profondo impegno verso i valori artigianali e alla convinzione che il profumo non sia soltanto un prodotto, ma un’intima opera d’arte. Più che lusso, queste fragranze sono rare opere di artigianato, in cui pazienza ed emozione rappresentano la vera firma.
 
 **SOUL & SKIN**
+
 Una nuova sezione creata per l’edizione 23 del salone, dedicata allo **skincare, con attenzione alla ricerca, alle formule, agli ingredienti per viso e corpo**. Viene enfatizzato il “rituale” rivolto al benessere con una componente sensoriale oltre che cosmetica. Attenzione non solo alla provenienza ma anche a purezza, texture, fragranza, tatto e sensazioni. Il tutto sotto il segno di efficacia e **sinergia tra natura e scienza**. Lo skincare è visto come momento di cura, relax, connessione con se stessi, nutrendo la mente e non solo la pelle. Specializzazione + innovazione: formule specifiche, attivi di nuova generazione, specialità per corpo e viso, prodotti che rispondono a bisogni molto mirati.
 
 ![](10)
