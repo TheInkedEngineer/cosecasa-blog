@@ -7,6 +7,7 @@ tags: Wellness
 # RiminiWellness 2025 
 
 > La 19ª edizione di **RiminiWellness** è il più grande evento italiano dedicato al **benessere, al fitness e alla sana alimentazione**
+
 _a cura di Elena Braschi_
 
  ![](banner.jpg)
@@ -48,17 +49,29 @@ Tra i talk con nutrizionisti, fisioterapisti e specialisti sui temi come dieta s
 Aggirandoci tra gli stand dell’**Area FoodWell**, abbiamo trovato **brand e prodotti interessanti**:
 
 **Barilla Protein+**: pasta ad alto contenuto proteico
+
 **Danone HiPRO** & **BuddyFit**
+
 **FunnyVeg / Kioene** (Gemme): pasta fermentata e gnocchetti leguminosi ad alto contenuto di fibra e proteine
+
 **Ketobar**: cucina chetogenica, showcooking sportivo e low-carb
+
 **Heinz**: condimenti funzionali come Mayo Veg e Ketchup Zero
+
 **Novi, Fage, Valsoia, Ventura, Bekind, Mielizia**: snack, cioccolato a basso zucchero e miele bio
+
 **Risibisi (Valledoro**): snack biologici croccanti a base di piselli e riso
+
 **Acque funzionali**: (Levissima+, Sant’Anna PRO, San Benedetto con Aquaprotein, Aquavitamin, Skincare ed Energade Protein; Lauretana)
+
 **Rigoni di Asiago / Natù**: confetture bio senza zuccheri aggiunti e referenze proteiche vegetali
+
 **I Love Kefir (Nestlé** – Lactalis Nestlé Prodotti Freschi Italia): kefir funzionale ricca di fermenti attivi naturali e nutrienti, perfetta per chi vuole integrare il benessere intestinale nel wellness quotidiano
+
 **Zespri: kiwi** (SunGold, Green, RubyRed), fonte di vitamina C, fibre e energia naturale
-**Mr Bean: snack** naturali e salutistici salati e dolci a base di farine 100 % di legumi italiani: ricchi in proteine e fibre, senza glutine, grassi ridotti, non fritti e OGM-free.
+
+**Mr Bean: snack** naturali e salutistici salati e dolci a base di farine 100 % di legumi italiani: ricchi in proteine e fibre, senza glutine, grassi ridotti, non fritti e OGM-free
+
 **NamedSport**: prodotti per dieta, massa muscolare, resistenza e concentrazione, recupero
 
 ![](8.jpg)
@@ -72,16 +85,27 @@ Le aree **Fitness e Active** hanno illustrato come **riprendere o iniziare un pe
 ![](10.jpg)
 
 Ma come trasformare le scelte FoodWell in un **percorso wellness post vacanze**?
+
 •	Sperimenta nuovi sapori funzionali: kefir per la salute intestinale, kiwi per la vitamina C, snack leguminosi, marmellate Natù.
+
 •	Alterna alimentazione e movimento: pasta proteica, snack plant-based e acque funzionali come supporto durante il training.
+
 •	Prova discipline bilanciate: functional training, pilates, HIIT, yoga, con il supporto di coach professionali e abbonamenti trial.
+
 •	Vai oltre le vacanze: scegli palestre dotate di attrezzature Technogym o Matrix, con check-up personalizzati e programmi di allenamento su misura.
+
 •	Mantieni l’idratazione intelligente: preferisci le acque funzionali per reintegro minerale e recupero energetico.
+
 •	Preferisci snack funzionali: marmellate senza zucchero Natù, snack di legumi o barrette proteiche Bio.
+
 •	Idratati bene: scegli acqua funzionali, ricche di sali minerali e proteine.
+
 •	Diversifica i pasti: integra proteine vegetali e fermentate per equilibrare l’alimentazione.
+
 •	Scegli una disciplina ben calibrata: pilates, functional, HIIT o circuit training ben supportati da trainer.
+
 •	Valuta palestre innovative: macchinari di fascia alta, corsi inclusi, servizi di check-up personalizzati.
+
 •	Inizia gradualmente, uscendo dal torpore delle vacanze: test prima di abbonarti, scegli formule flessibili come trial oppure pacchetti mensili.
 
 ![](11.jpg)
