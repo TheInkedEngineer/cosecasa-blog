@@ -20,7 +20,7 @@ Fin dalla sua nascita, la Maison ha offerto carta bianca ai creatori di profumi,
 
 ![](4.jpg)
 
-E’ proprio **Olivier Royère**, uno dei tre fondatori, che ci presenta** Blue Talisman Extrait de parfum** durante un evento dedicato alla stampa di settore. Esteta e collezionista, Olivier nutre un profondo sentimento per l'Alta Profumeria francese e apprezza in particolar modo le materie prime naturali provenienti da tutto il mondo.
+E’ proprio **Olivier Royère**, uno dei tre fondatori, che ci presenta **Blue Talisman Extrait de parfum** durante un evento dedicato alla stampa di settore. Esteta e collezionista, Olivier nutre un profondo sentimento per l'Alta Profumeria francese e apprezza in particolar modo le materie prime naturali provenienti da tutto il mondo.
 
 ![](6.jpg)
 
