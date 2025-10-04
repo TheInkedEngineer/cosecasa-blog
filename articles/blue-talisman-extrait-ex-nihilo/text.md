@@ -14,7 +14,7 @@ tags: Beauty e Profumi
 
 ![](2.jpg)
 
-Fin dalla sua nascita, la Maison ha offerto carta bianca ai creatori di profumi, utilizzando solo i** materiali più esclusivi** e fondendo maestria artigianale e tecnologie avanzate, promuove una visione della profumeria senza compromessi, **senza vincoli creativi e di costi**. 
+Fin dalla sua nascita, la Maison ha offerto carta bianca ai creatori di profumi, utilizzando solo i **materiali più esclusivi** e fondendo maestria artigianale e tecnologie avanzate, promuove una visione della profumeria senza compromessi, **senza vincoli creativi e di costi**. 
 
 ![](3.jpg)
 
@@ -28,7 +28,7 @@ Il **colore blu profondo** parte dal nome della nuova fragranza e continua nel f
 
 ![](5.jpg)
 
-Del resto, Blue Talisman Extrait de parfum è concepito come**un viaggio immersivo, affascinante e poliedrico** in un gioiello prezioso. Una creazione del profumiere Jordi Fernàndez che incarna lo spirito d'avanguardia della Maison invitando a perdersi in un caleidoscopio di sensazioni. Una creazione **sfaccettata proprio come un cristallo**.
+Del resto, Blue Talisman Extrait de parfum è concepito come **un viaggio immersivo, affascinante e poliedrico** in un gioiello prezioso. Una creazione del profumiere Jordi Fernàndez che incarna lo spirito d'avanguardia della Maison invitando a perdersi in un caleidoscopio di sensazioni. Una creazione **sfaccettata proprio come un cristallo**.
 
 ![](7.jpg)
 
