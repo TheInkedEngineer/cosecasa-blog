@@ -10,7 +10,7 @@ tags: Beauty e Profumi
 
 _a cura di Claudia Braschi e Elena Braschi_
 
-![](11.jpg)
+![](banner.jpg)
 
 Per l’edizione 2025 di Pitti Fragranze, il **tema-guida “Composition”** ha sviluppato molti percorsi olfattivi da parte dei brand, grazie all’ **idea di accostamento, contrappunto e costruzione delle fragranze**.
 Con i suoi **258 marchi**, Pitti Fragranze è l’appuntamento di riferimento per scoprire le **novità della profumeria di ricerca e del mondo beauty**, e l’occasione in cui si lanciano le **tendenze della cultura olfattiva** sulla scena internazionale.
