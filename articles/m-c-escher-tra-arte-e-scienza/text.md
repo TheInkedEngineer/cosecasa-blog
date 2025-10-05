@@ -49,14 +49,20 @@ Alle sezioni tematiche si affiancano lungo il percorso di mostra le **installazi
 
  ![](1.jpg)
 
-_Ph. credits: Maria Rosa Sirotti_
+
 
 Prodotta da 24 ORE Cultura – Gruppo 24 ORE e promossa dal Comune di Milano-Cultura con il supporto di Turisanda1924 – esclusivo brand di viaggi parte di Alpitour World – e con il patrocinio dell’Ambasciata e Consolato Generale dei Paesi Bassi in Italia, l’esposizione è in collaborazione con il Kunstmuseum Den Haag ed è resa possibile grazie a Fondazione M.C. Escher. Grazie a questa preziosa sinergia è infatti possibile ammirare in un unico allestimento le importanti opere provenienti dalla collezione permanente del museo olandese, che custodisce la più grande collezione museale pubblica di M.C. Escher al mondo, di cui in mostra ritroviamo una significativa rappresentanza. La mostra è inserita nell’ambito. 
+
+_Ph. credits: Maria Rosa Sirotti_
 
 **INFO UTILI:** 
 
 **MUDEC** Via Tortona 56, tel. 02/54917 (lun-ven 10.00-17.00) 
+
 **DATE** 25/09/2025 – 08/02/2026 
+
 **ORARI** Lun 14.30 ‐19.30 | Mar, Mer, Ven, Dom 09.30 ‐ 19.30 | Gio, Sab 9.30-22.30 
+
 **BIGLIETTI** Intero € 16 | Ridotto € 14 
+
 Il servizio di biglietteria termina un’ora prima della chiusura.
