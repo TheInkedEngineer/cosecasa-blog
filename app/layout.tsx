@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { ClerkProvider } from "@clerk/nextjs"
-import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
@@ -28,7 +27,7 @@ export default function RootLayout({
   return (
     <ClerkProvider publishableKey={publishableKey}>
       <html lang="it">
-        <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+        <body className={`font-sans ${GeistMono.variable}`}>
           <Suspense fallback={null}>{children}</Suspense>
           <Analytics />
         </body>

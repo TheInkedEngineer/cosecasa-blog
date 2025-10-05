@@ -57,8 +57,8 @@ export default function AboutPage() {
               <div className="relative overflow-hidden rounded-[2.5rem] border border-border/80 bg-background/75 p-8 shadow-[0_35px_120px_-100px_var(--ring)] md:p-12">
                 <div aria-hidden className="absolute -top-24 -left-12 h-60 w-60 rounded-full bg-brand-primary/12 blur-3xl" />
                 <div aria-hidden className="absolute -bottom-16 -right-20 h-64 w-64 rounded-full border border-brand-primary/30 opacity-40" />
-                <div className="prose prose-lg max-w-none text-justify text-foreground prose-headings:font-serif prose-headings:text-left prose-a:text-brand-primary prose-strong:text-foreground prose-p:leading-relaxed prose-blockquote:border-l-brand-primary/60">
-                  <p className="lead font-serif text-brand-primary">
+                <div className="prose prose-lg max-w-none text-justify text-foreground prose-headings:font-sans prose-headings:text-left prose-a:text-brand-primary prose-strong:text-foreground prose-p:leading-relaxed prose-blockquote:border-l-brand-primary/60">
+                  <p className="lead font-sans text-brand-primary">
                     Sono Maria Rosa Sirotti, architetto e giornalista free-lance. Dopo tredici anni di libera
                     professione ho iniziato a curare l'impaginazione e le illustrazioni di libri di storia e a scrivere
                     articoli di architettura per riviste cartacee di settore. Nel tempo ho ampliato il mio campo di

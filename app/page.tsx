@@ -76,7 +76,7 @@ export default async function HomePage() {
                     className="border border-dashed border-border/80 bg-transparent text-brand-primary hover:bg-brand-muted/30"
                     asChild
                   >
-                    <Link href="/about">Conosci Maria Rosa</Link>
+                    <Link href="/about">Conosci Maria Rosa Sirotti</Link>
                   </Button>
                 </div>
               </div>
