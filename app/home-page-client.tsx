@@ -69,10 +69,6 @@ export function HomePageClient({ articles, categories }: HomePageClientProps) {
             <>
               {/* Latest section */}
               <div className="mb-12">
-                <Title as="h2" align="center" margin="lg">
-                  Ultimi Articoli
-                </Title>
-
                 {/* First article - full width */}
                 {latestArticles[0] && (
                   <LinkCard article={latestArticles[0]} className="mb-6 overflow-hidden">
