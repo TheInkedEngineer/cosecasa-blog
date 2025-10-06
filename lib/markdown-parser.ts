@@ -14,6 +14,7 @@ export interface ParsedMarkdown {
     date: string
     description: string
     tags: string[]
+    draft: boolean
   }
   htmlContent: string
   rawContent: string
@@ -57,10 +58,29 @@ export async function parseMarkdown(markdownText: string, slug: string): Promise
       date: data.date || new Date().toISOString().split("T")[0],
       description: data.description || "",
       tags,
+      draft: resolveDraftFlag(data.draft),
     },
     htmlContent,
     rawContent: content,
   }
+}
+
+function resolveDraftFlag(value: unknown): boolean {
+  if (typeof value === "boolean") {
+    return value
+  }
+
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase()
+    if (normalized === "true") {
+      return true
+    }
+    if (normalized === "false") {
+      return false
+    }
+  }
+
+  return false
 }
 
 /**

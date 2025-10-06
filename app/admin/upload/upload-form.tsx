@@ -8,9 +8,12 @@ import { FileText, Loader2, RefreshCcw, Trash2, X, type LucideIcon } from "lucid
 import { toast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Switch } from "@/components/ui/switch"
+import { Label } from "@/components/ui/label"
 
 import { usePendingChanges, validateImageSize } from "../pending-changes-context"
 import { createSlug, ensureUniqueName, sanitizeFileName } from "./utils"
+import { applyDraftFlag, extractDraftFlag } from "../frontmatter-utils"
 
 interface LocalImage {
   id: string
@@ -25,7 +28,8 @@ export function UploadForm() {
   const [images, setImages] = useState<LocalImage[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
-  
+  const [isDraft, setIsDraft] = useState(false)
+
   const router = useRouter()
   const { addUpload } = usePendingChanges()
 
@@ -80,6 +84,13 @@ export function UploadForm() {
         event.target.value = ""
         return
       }
+
+      void file
+        .text()
+        .then((content) => setIsDraft(extractDraftFlag(content)))
+        .catch(() => setIsDraft(false))
+    } else {
+      setIsDraft(false)
     }
 
     setMarkdownFile(file)
@@ -168,6 +179,8 @@ export function UploadForm() {
 
       const slug = createSlug(extractedTitle) || "untitled"
 
+      const markdownWithDraft = applyDraftFlag(markdownContent, isDraft)
+
       const usedNames = new Set<string>()
       const imagePayload = [] as Array<{ name: string; dataUrl: string; size: number }>
 
@@ -181,8 +194,9 @@ export function UploadForm() {
       addUpload({
         slug,
         title: extractedTitle,
-        markdown: markdownContent,
+        markdown: markdownWithDraft,
         images: imagePayload,
+        draft: isDraft,
       })
 
       toast({
@@ -195,6 +209,8 @@ export function UploadForm() {
         prev.forEach((image) => URL.revokeObjectURL(image.preview))
         return []
       })
+
+      setIsDraft(false)
 
       if (markdownInputRef.current) {
         markdownInputRef.current.value = ""
@@ -275,12 +291,30 @@ export function UploadForm() {
                         if (markdownInputRef.current) {
                           markdownInputRef.current.value = ""
                         }
+                        setIsDraft(false)
                       }}
                     />
                   </div>
                 </div>
               </>
             )}
+          </div>
+
+          <div className="flex flex-col gap-3 rounded-md border border-border bg-muted/20 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="space-y-1">
+              <Label htmlFor="draft-mode" className="text-sm font-medium text-foreground">
+                Salva come bozza
+              </Label>
+              <p className="text-xs text-muted-foreground">
+                Quando attivo, l'articolo rimarrà nascosto da homepage, ricerche e liste pubbliche.
+              </p>
+            </div>
+            <Switch
+              id="draft-mode"
+              checked={isDraft}
+              onCheckedChange={setIsDraft}
+              aria-label="Attiva o disattiva la modalità bozza"
+            />
           </div>
 
           <div className="space-y-3">
@@ -438,4 +472,3 @@ function extractTitleFromFrontmatter(markdown: string): string {
 
   throw new Error("Nel frontmatter manca la chiave obbligatoria `title`.")
 }
-

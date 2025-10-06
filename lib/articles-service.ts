@@ -9,6 +9,7 @@ export interface ArticleRecord {
   tags: string[]
   htmlContent: string
   imageUrl?: string
+  draft: boolean
 }
 
 const IMAGE_PATTERN = /\.(png|jpe?g|webp|gif|svg)$/i
@@ -47,6 +48,7 @@ export async function fetchArticlesFromGitHub(): Promise<ArticleRecord[]> {
         tags: parsed.frontmatter.tags,
         htmlContent: parsed.htmlContent,
         imageUrl,
+        draft: parsed.frontmatter.draft,
       })
     } catch (error) {
       console.error(`Unable to load article ${dir.name}`, error)
@@ -74,4 +76,3 @@ function extractFirstImage(htmlContent: string): string | undefined {
   const imgMatch = htmlContent.match(/<img[^>]+src=["']([^"']+)["']/i)
   return imgMatch?.[1]
 }
-

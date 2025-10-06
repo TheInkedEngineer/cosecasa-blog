@@ -3,11 +3,13 @@ import Link from "next/link"
 import { FileText, Folder, Image } from "lucide-react"
 import { unstable_noStore as noStore } from "next/cache"
 
-import { listDirectoryContents, getRawFileUrl, type RepoContentEntry } from "@/lib/github-api"
+import { listDirectoryContents, getFileContent, getRawFileUrl, type RepoContentEntry } from "@/lib/github-api"
 
 import { ArticleDeleteToggle } from "./article-delete-toggle"
 import { ArticleImageDeleteToggle } from "./article-image-delete-toggle"
 import { ArticleImagesUploader } from "./article-images-uploader"
+import { ArticleDraftToggle } from "./article-draft-toggle"
+import { extractDraftFlag, extractFrontmatterTitle } from "./frontmatter-utils"
 
 function formatSize(size: number): string {
   if (size < 1024) return `${size} B`
@@ -51,16 +53,65 @@ export async function RepoExplorer({ prefix }: RepoExplorerProps) {
   const articleSlugMatch = normalizedPrefix.match(/^articles\/([^/]+)\/$/)
   const articleSlug = articleSlugMatch ? articleSlugMatch[1] : null
   const showDeleteAtTop = Boolean(articleSlug)
+  const publicPath = articleSlug ? `/${articleSlug}` : null
+  const siteBaseUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "")
+  const absoluteArticleUrl = siteBaseUrl && publicPath ? `${siteBaseUrl}${publicPath}` : publicPath
+
+  let articleMarkdown: string | null = null
+  let articleDraft = false
+  let articleTitle = articleSlug ?? ""
+  let articleLoadError: string | null = null
+
+  if (articleSlug) {
+    try {
+      articleMarkdown = await getFileContent(`articles/${articleSlug}/text.md`)
+      articleDraft = extractDraftFlag(articleMarkdown)
+      const extractedTitle = extractFrontmatterTitle(articleMarkdown)
+      articleTitle = extractedTitle ?? articleSlug
+    } catch (error) {
+      console.error("Failed to load article markdown", error)
+      articleLoadError = error instanceof Error ? error.message : "Impossibile leggere il file text.md."
+    }
+  }
 
   const parentPrefix = getParentPrefix(normalizedPrefix)
 
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
       {showDeleteAtTop ? (
-        <div className="flex flex-col gap-2 border-b border-border/70 bg-muted/40 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p className="text-sm text-muted-foreground">
-            Stai visualizzando <span className="font-semibold text-foreground">{articleSlug}</span>.
-          </p>
+        <div className="flex flex-col gap-4 border-b border-border/70 bg-muted/40 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-6">
+          <div className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              Stai visualizzando <span className="font-semibold text-foreground">{articleSlug}</span>.
+            </p>
+            {absoluteArticleUrl ? (
+              <p className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                <span className="font-semibold text-foreground">URL pubblico:</span>
+                <code className="rounded bg-background/90 px-2 py-1 font-mono text-xs text-foreground">
+                  {absoluteArticleUrl}
+                </code>
+                <Link
+                  href={publicPath!}
+                  prefetch={false}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-brand-primary underline-offset-4 hover:underline"
+                >
+                  Apri in nuova scheda
+                </Link>
+              </p>
+            ) : null}
+            {articleMarkdown ? (
+              <ArticleDraftToggle
+                slug={articleSlug!}
+                title={articleTitle}
+                markdown={articleMarkdown}
+                initialDraft={articleDraft}
+              />
+            ) : articleLoadError ? (
+              <p className="text-xs text-destructive">{articleLoadError}</p>
+            ) : null}
+          </div>
           <ArticleDeleteToggle slug={articleSlug!} />
         </div>
       ) : null}

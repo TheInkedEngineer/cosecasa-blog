@@ -10,6 +10,8 @@ import {
   type ReactNode,
 } from "react"
 
+import { applyDraftFlag, extractDraftFlag } from "./frontmatter-utils"
+
 const STORAGE_KEY = "cosecase-admin-pending"
 const MAX_STORAGE_BYTES = 4 * 1024 * 1024 // ~8MB safe window inside localStorage limits
 const encoder = typeof TextEncoder !== "undefined" ? new TextEncoder() : null
@@ -32,6 +34,7 @@ export interface PendingUpload {
   title?: string
   markdown?: string
   images: PendingImage[]
+  draft?: boolean
 }
 
 export interface PendingChangesState {
@@ -45,6 +48,7 @@ interface PendingChangesContextValue {
   addUpload: (upload: PendingUpload) => void
   removeUpload: (slug: string) => void
   appendImages: (slug: string, images: PendingImage[], metadata?: { title?: string }) => void
+  setUploadDraft: (slug: string, draft: boolean) => void
   addDelete: (slug: string) => void
   removeDelete: (slug: string) => void
   addImageDelete: (payload: PendingImageDelete) => void
@@ -91,13 +95,20 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
       if (raw) {
         const parsed = JSON.parse(raw) as PendingChangesState
         if (parsed && Array.isArray(parsed.uploads) && Array.isArray(parsed.deletes)) {
+          const sanitizedUploads = parsed.uploads.map((upload) => ({
+            ...upload,
+            draft:
+              typeof upload?.draft === "boolean"
+                ? upload.draft
+                : extractDraftFlag(upload?.markdown),
+          }))
           const rawImageDeletes = Array.isArray(parsed.imageDeletes) ? parsed.imageDeletes : []
           const sanitizedImageDeletes = rawImageDeletes.filter(
             (item): item is PendingImageDelete =>
               item && typeof item.slug === "string" && typeof item.name === "string",
           )
           setState({
-            uploads: parsed.uploads,
+            uploads: sanitizedUploads,
             deletes: parsed.deletes,
             imageDeletes: sanitizedImageDeletes,
           })
@@ -150,11 +161,25 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
       }
     })
 
+    const resolvedMarkdown = incoming.markdown ?? existing?.markdown
+    const resolvedDraft =
+      typeof incoming.draft === "boolean"
+        ? incoming.draft
+        : typeof existing?.draft === "boolean"
+          ? existing.draft
+          : extractDraftFlag(resolvedMarkdown)
+
+    const markdownWithDraft =
+      resolvedMarkdown && typeof resolvedDraft === "boolean"
+        ? applyDraftFlag(resolvedMarkdown, resolvedDraft)
+        : resolvedMarkdown
+
     return {
       slug: incoming.slug,
       title: incoming.title ?? existing?.title,
-      markdown: incoming.markdown ?? existing?.markdown,
+      markdown: markdownWithDraft,
       images: combinedImages,
+      draft: resolvedDraft,
     }
   }
 
@@ -210,6 +235,36 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
     },
     [],
   )
+
+  const setUploadDraft = useCallback((slug: string, draft: boolean) => {
+    setState((prev) => {
+      const normalizedSlug = sanitizeSlug(slug)
+      const target = prev.uploads.find((item) => item.slug === normalizedSlug)
+      if (!target || !target.markdown) {
+        return prev
+      }
+
+      const nextMarkdown = applyDraftFlag(target.markdown, draft)
+      const nextUpload: PendingUpload = {
+        ...target,
+        draft,
+        markdown: nextMarkdown,
+      }
+
+      const nextUploads = prev.uploads.map((item) =>
+        item.slug === normalizedSlug ? nextUpload : item,
+      )
+
+      const nextState: PendingChangesState = {
+        uploads: nextUploads,
+        deletes: prev.deletes,
+        imageDeletes: prev.imageDeletes,
+      }
+
+      assertWithinStorageLimit(nextState)
+      return nextState
+    })
+  }, [])
 
   const removeUpload = useCallback((slug: string) => {
     const normalizedSlug = sanitizeSlug(slug)
@@ -304,6 +359,7 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
       addUpload,
       removeUpload,
       appendImages,
+      setUploadDraft,
       addDelete,
       removeDelete,
       addImageDelete,
@@ -319,6 +375,7 @@ export function PendingChangesProvider({ children }: { children: ReactNode }) {
       addUpload,
       removeUpload,
       appendImages,
+      setUploadDraft,
       addDelete,
       removeDelete,
       addImageDelete,

@@ -11,6 +11,7 @@ export interface PostMetadata {
   image?: string
   author?: string
   featured?: boolean
+  draft: boolean
 }
 
 export interface Post {
@@ -47,6 +48,7 @@ function mapArticleToPost(article: ArticleRecord): Post {
       image: article.imageUrl,
       author: "cosecase",
       featured: false, // Can be enhanced later by checking a frontmatter field
+      draft: article.draft,
     },
     content: article.htmlContent,
   }
@@ -63,9 +65,14 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   return mapArticleToPost(article)
 }
 
-export async function getAllPosts(): Promise<Post[]> {
+interface GetAllPostsOptions {
+  includeDrafts?: boolean
+}
+
+export async function getAllPosts(options: GetAllPostsOptions = {}): Promise<Post[]> {
   const articles = await getCachedArticles()
-  return articles.map(mapArticleToPost)
+  const filtered = options.includeDrafts ? articles : articles.filter((article) => !article.draft)
+  return filtered.map(mapArticleToPost)
 }
 
 export async function getFeaturedPosts(limit = 6): Promise<Post[]> {
@@ -96,7 +103,8 @@ export async function getRelatedPosts(currentPost: Post, limit = 3): Promise<Pos
 
 export async function getAllTags(): Promise<string[]> {
   const articles = await getCachedArticles()
-  return extractUniqueTags(articles)
+  const published = articles.filter((article) => !article.draft)
+  return extractUniqueTags(published)
 }
 
 export async function getPostsByTag(tag: string): Promise<Post[]> {

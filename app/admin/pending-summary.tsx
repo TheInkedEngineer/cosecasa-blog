@@ -6,11 +6,21 @@ import { AlertTriangle, CheckCircle2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { Switch } from "@/components/ui/switch"
+import { Label } from "@/components/ui/label"
 
 import { usePendingChanges } from "./pending-changes-context"
 
 export function PendingSummary() {
-  const { state, hasPending, storageUsed, storageLimit, isReady, clearAll } = usePendingChanges()
+  const {
+    state,
+    hasPending,
+    storageUsed,
+    storageLimit,
+    isReady,
+    clearAll,
+    setUploadDraft,
+  } = usePendingChanges()
 
   if (!isReady) {
     return null
@@ -58,6 +68,41 @@ export function PendingSummary() {
         <li>• {imageDeletes.length} immagini da eliminare</li>
         <li>• Spazio locale: {formatBytes(storageUsed)} / {formatBytes(storageLimit)} ({usagePercent}%)</li>
       </ul>
+
+      {uploads.length > 0 ? (
+        <div className="space-y-3 rounded-md border border-border/70 bg-background/70 p-4">
+          <p className="text-sm font-medium text-foreground">Imposta gli articoli come bozze visibili solo via link diretto</p>
+          <ul className="space-y-3">
+            {uploads
+              .slice()
+              .sort((a, b) => (a.title || a.slug).localeCompare(b.title || b.slug))
+              .map((upload) => {
+                const switchId = `draft-toggle-${upload.slug}`
+                return (
+                  <li key={upload.slug} className="flex flex-col gap-2 rounded-md border border-border/60 bg-muted/20 p-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-foreground">
+                        {upload.title || upload.slug}
+                      </p>
+                      <p className="truncate text-xs text-muted-foreground">/{upload.slug}</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Label htmlFor={switchId} className="text-xs text-muted-foreground">
+                        {upload.draft ? "Bozza attiva" : "Visibile in lista"}
+                      </Label>
+                      <Switch
+                        id={switchId}
+                        checked={Boolean(upload.draft)}
+                        onCheckedChange={(checked) => setUploadDraft(upload.slug, checked)}
+                        aria-label={`Imposta ${upload.title || upload.slug} come bozza`}
+                      />
+                    </div>
+                  </li>
+                )
+              })}
+          </ul>
+        </div>
+      ) : null}
       <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
         <span className="text-xs text-muted-foreground">Scarta tutto per ripartire da zero.</span>
         <Button variant="destructive" size="sm" onClick={handleDiscard}>Scarta modifiche</Button>
