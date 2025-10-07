@@ -40,16 +40,22 @@ Nuova palette cromatica **Artis** di **Villeroy & Boch**. La collezione si arric
 
 ![](5.jpg)
 
+Kerid è la nuova vasca freestanding di Victoria + Albert. Si ispira agli onsen giapponesi ma prende il nome da un cratere vulcanico islandese perché sperimenta e coniuga il potere del caldo o del freddo. Compatta e alta, ha la seduta integrata che avvolge il corpo completamente, ideale sia per un bagno caldo rilassante sia per una terapia a immersione fredda energizzante. Il bordo inclinato assicura comfort ergonomico a collo e testa. Realizzata in Quarrycast™, esclusiva miscela di pietra vulcanica e resina ad alte prestazioni, è adatta anche all’uso outdoor, non ingiallisce al sole, resiste al freddo e può essere ripristinata in caso di danno accidentale. Garantita 25 anni.
+
+Koi di Globo è una linea di lavabi che offre grande libertà compositiva. Le linee fluide e il bordo morbido esaltano l’eleganza della ceramica, offrendo al contempo praticità e funzionalità. Il colore neutro e le superfici opache del bianco matt o lucide della collezione Riflessi di Luce permettono combinazioni armoniose con diverse soluzioni di arredo, impreziosite anche dalla possibilità di avere il lavabo tondo nella versione con piano rubinetteria integrato.
+
+![](6.jpg)
+
 **Arpa** è il termoarredo® che nasce dall’esperienza **Irsap**. Combina un’estetica armonica e melodiosa, come suggerito dal nome, a una straordinaria funzionalità che permette di apportare il giusto calore in locali di varie metrature e altezze. Ricca di soluzioni in versione orizzontale e a sviluppo verticale, la gamma si compone di differenti proposte che si distinguono per la dimensione del diametro dell’elemento tubolare e di conseguenza per l’idoneità a riscaldare locali molto diversi fra loro.
 
 **Kaldewei** presenta una nuova interpretazione della sua iconica vasca freestanding con la **Meisterstück Classic Duo Oval**, ora proposta in una versione più leggera. Il bordo più sottile esalta la bellezza essenziale della forma ovale, mentre lo stile minimalista conferisce alla vasca un’eleganza senza tempo. Realizzata in un unico pezzo e in acciaio smaltato di alta qualità, questa vasca rappresenta la sintesi perfetta tra estetica raffinata, lavorazione impeccabile e comfort duraturo.
 
-![](6.jpg)
+![](7.jpg)
 
 **Finion All Black** è la nuova proposta per il bagno di **Villeroy & Boch**. Linee fluide, ceramica in finitura Pure Black e materiali innovativi come TitanCeram e Quaryl® definiscono una visione d’arredo bagno essenziale e scenografica, dove ogni elemento – dai lavabi, alle vasche freestanding fino ai mobili in nero opaco – diventa protagonista. Un progetto dallo stile deciso e contemporaneo, pensato per trasformare il bagno in uno spazio di design autentico.
 
 **Rubinetterie Treemme** presenta **Fly** in acciaio inox 316L. Il design è immediatamente riconoscibile per la borchia a parete con una curvatura conica ampia e avvolgente. Attraverso un meccanismo innovativo, la collezione Fly si presenta con un allineamento perfetto delle leve, senza la presenza di grani visibili, mantenendo intatto il valore estetico dell’insieme.
 
-![](7.jpg)
+![](8.jpg)
 
 
