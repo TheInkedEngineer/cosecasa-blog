@@ -16,7 +16,7 @@ Un evento promosso dalla Friend of the Earth, progetto della **World Sustainabil
 
 Dopo aver già sostenuto con successo le edizioni precedenti, **ApexBrasil** ha rinnovato la collaborazione con Friend of the Earth per rafforzare la presenza di eccellenti brand brasiliani nel panorama globale della moda sostenibile. Quest’anno ApexBrasil ha sponsorizzato i marchi **Alina Amaral, Ana de Jour, Celeste, Ludimila Heringer, Natural Cotton Color e Villa Dharma**, che hanno presentato le loro collezioni insieme ad altri brand selezionati da Friend of the Earth. Le sei aziende hanno partecipato attraverso Texbrasil (Programma di Internazionalizzazione dell’Industria Tessile e della Moda Brasiliana), frutto della partnership tra Abit (Associazione Brasiliana dell’Industria Tessile e dell’Abbigliamento) e ApexBrasil.
 
-![](7.jpg)
+![](1.jpg)
 
 **BRANDS PARTECIPANTI**
 
@@ -40,7 +40,7 @@ Dopo aver già sostenuto con successo le edizioni precedenti, **ApexBrasil** ha 
 
 **Las Gringas**: beachwear ispirato alla foresta amazzonica, realizzato con tessuti certificati e processi a basso impatto, con un impegno concreto nella tutela ambientale attraverso donazioni a progetti di conservazione. 
 
-![](1.jpg)
+![](6.jpg)
 
 **Ludimila**:marchio di slow fashion che impiega tinture naturali e tessuti amazzonici biodegradabili, Ludimila unisce artigianato e design per creare capi unici, rispettosi dell’ambiente e della cultura locale. 
 
@@ -54,6 +54,6 @@ Dopo aver già sostenuto con successo le edizioni precedenti, **ApexBrasil** ha 
 
 **Zoe Klose**: brand svizzero che trasforma rifiuti tessili in capi sportivi e casual, Zoe Klose promuove l’economia circolare e la pulizia degli oceani con collezioni unisex innovative e sostenibili.
 
-![](6.jpg)
+![](1.jpg)
 
 **Beyond the Claim 2025** rappresenta un momento di grande rilievo per la **moda sostenibile**, unendo creatività, innovazione e responsabilità ambientale sotto il segno di Friend of the Earth. L’evento ha confermato l’impegno globale verso un’industria della **moda più trasparente, etica e rispettosa del pianeta**.
