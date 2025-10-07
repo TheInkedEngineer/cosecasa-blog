@@ -16,7 +16,7 @@ Un evento promosso dalla Friend of the Earth, progetto della **World Sustainabil
 
 Dopo aver già sostenuto con successo le edizioni precedenti, **ApexBrasil** ha rinnovato la collaborazione con Friend of the Earth per rafforzare la presenza di eccellenti brand brasiliani nel panorama globale della moda sostenibile. Quest’anno ApexBrasil ha sponsorizzato i marchi **Alina Amaral, Ana de Jour, Celeste, Ludimila Heringer, Natural Cotton Color e Villa Dharma**, che hanno presentato le loro collezioni insieme ad altri brand selezionati da Friend of the Earth. Le sei aziende hanno partecipato attraverso Texbrasil (Programma di Internazionalizzazione dell’Industria Tessile e della Moda Brasiliana), frutto della partnership tra Abit (Associazione Brasiliana dell’Industria Tessile e dell’Abbigliamento) e ApexBrasil.
 
-![](1.jpg)
+![](7.jpg)
 
 **BRANDS PARTECIPANTI**
 
