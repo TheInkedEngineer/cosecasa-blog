@@ -57,3 +57,5 @@ Dopo aver già sostenuto con successo le edizioni precedenti, **ApexBrasil** ha 
 ![](1.jpg)
 
 **Beyond the Claim 2025** rappresenta un momento di grande rilievo per la **moda sostenibile**, unendo creatività, innovazione e responsabilità ambientale sotto il segno di Friend of the Earth. L’evento ha confermato l’impegno globale verso un’industria della **moda più trasparente, etica e rispettosa del pianeta**.
+
+_Ph.credits Maria Rosa Sirotti_
