@@ -1,7 +1,7 @@
 ---
 title: Pisoni 1852 Gin e Vermouth 7 Laghi
-date: 2025-10-06 
-tags: Food e Beverage 
+date: 2025-10-06T00:00:00.000Z
+tags: Food & Beverage
 ---
 
 # Pisoni 1852: Gin e Vermouth 7 Laghi 
