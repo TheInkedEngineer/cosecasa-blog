@@ -6,7 +6,7 @@ tags: Beauty e Profumi
 
 # Una Beauty Routine "Basilare"
 
-> **Basilare** è la skin care quotidiana di cosmesi naturale creata da **Luisa Barbieri**
+> **Basilare** è la skin care quotidiana di cosmesi naturale creata da **Luisa Barbieri** in affinità con il suo territorio, il Triveneto
  
 ![](banner.jpg)
 
