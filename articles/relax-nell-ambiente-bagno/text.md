@@ -50,6 +50,6 @@ Nuova palette cromatica **Artis** di **Villeroy & Boch**. La collezione si arric
 
 **Rubinetterie Treemme** presenta **Fly** in acciaio inox 316L. Il design è immediatamente riconoscibile per la borchia a parete con una curvatura conica ampia e avvolgente. Attraverso un meccanismo innovativo, la collezione Fly si presenta con un allineamento perfetto delle leve, senza la presenza di grani visibili, mantenendo intatto il valore estetico dell’insieme.
 
-![](6.jpg)
+![](7.jpg)
 
 
