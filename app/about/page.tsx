@@ -42,7 +42,7 @@ export default function AboutPage() {
                   >
                     Maria Rosa Sirotti
                   </Title>
-                  <p className="text-sm uppercase tracking-[0.32em] text-muted-foreground text-justify">
+                  <p className="text-sm uppercase tracking-[0.32em] text-muted-foreground">
                     Architetto e giornalista freelance
                   </p>
                   <p className="text-lg text-muted-foreground text-justify md:text-xl">
