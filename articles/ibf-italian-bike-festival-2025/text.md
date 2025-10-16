@@ -6,7 +6,6 @@ draft: true
 ---
 
 # IBF – Italian Bike Festival 2025 
-## Sottotitolo
 
 > **IBF – Italian Bike Festival 2025**, il più grande evento bike d'europa, si è svolto nella cornice del **Misano World Circuit “Marco Simoncelli”**
 
