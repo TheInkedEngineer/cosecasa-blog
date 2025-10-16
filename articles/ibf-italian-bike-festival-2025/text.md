@@ -11,7 +11,7 @@ draft: true
 
 _a cura di Elena Braschi_
 
-![](imagine.jpg)
+![](banner 1.jpg)
 
 La Riviera romagnola è diventata la capitale europea della bici e della mobilità sostenibile, con **tre giorni di bike test, alk, workshop** e la presenza di oltre **600 brand espositori**. L’evento a ingresso gratuito, ha voluto offrire un’esperienza completa e immersiva: dalla scoperta delle novità del mercato alla possibilità di provarle direttamente, fino al confronto con visioni, storie e prospettive sul futuro della bici.
 **Italian Bike Festival** è il **Salone internazionale della bici** che dal 2018 richiama l’attenzione del mercato europeo. Ad oggi è la piattaforma leader in Europa per il settore della bici e della mobilità dolce. 
