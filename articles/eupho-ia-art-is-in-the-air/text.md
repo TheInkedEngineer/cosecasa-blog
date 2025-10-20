@@ -2,7 +2,6 @@
 title: Euphoяia - art is in the air
 date: 2025-10-18T00:00:00.000Z
 tags: 'cultura,'
-draft: true
 ---
 
 # Euphoяia - art is in the air
