@@ -33,6 +33,7 @@ Un’area espositiva dedicata alle **novità del settore**, un ponte tra innovaz
 
 
 **BEAUTECH**
+
 Beautech è un laboratorio di ricerca e sviluppo per la produzione di **Cosmetici professionali, Arredamenti sartoriali e Tecnologie innovative** puramente made in italy. Nasce per soddisfare tutti i professionisti di centri estetici, centri benessere e SPA che vogliono fare la differenza. I cosmetici sono dermatologicamente testati, formulati senza l’aggiunta di petrolati, conservanti, parabenici, coloranti chimici, allergeni da fragranza, tensioattivi sles, sls e nichel.
 
 ![](3.jpg)
@@ -40,6 +41,7 @@ Beautech è un laboratorio di ricerca e sviluppo per la produzione di **Cosmetic
 **Glyco Night** è un trattamento viso notturno graduale che fa parte della **Sublime Peel**, la linea dedicata al rinnovamento cutaneo attraverso l’efficacia mirata dei peeling acidi Glicolico, Lattico, Bio-Succinico e Mandelico. Formulazioni intelligenti che agiscono in profondità per esfoliare con precisione, stimolare il turnover cellulare e rivelare una pelle più liscia, uniforme e luminosa. Grazie alla sinergia tra acidi selezionati, attivi lenitivi e tecnologie dermo-affini, ogni trattamento affina la grana cutanea, libera i pori, attenua imperfezioni e discromie, restituendo vitalità e freschezza anche alle pelli più spente o irregolari. 
 
 **CHROMOENERGY**
+
 Il **Metodo Chromologos** di Giuseppe Quartieri si basa sulla capacità dei colori e dell'espressione artistica astratta di poter dialogare con il nostro inconscio scoprendo cosa, in realtà, lui desideri per la nostra vita, in un dato momento della nostra esistenza. Il tutto emerge dal test e successiva lettura delle **Tavole dell'inconscio**. E’ un metodo unico ed esclusivo che aiuta a scegliere i colori non con gli occhi ma con il subconscio, partendo da ciò che conta davvero: noi stessi. Con il test si scoprono i colori specifici da riequilibrare e armonizzare e relative caratteristiche emozionali e psicologiche. 
 
 ![](4.jpg)
@@ -47,6 +49,7 @@ Il **Metodo Chromologos** di Giuseppe Quartieri si basa sulla capacità dei colo
 Con la creazione dei dispositivi, realizzati in partnership con l'azienda **Bioenergy**,  e prodotti **Chromoenergy**, il metodo amplia le possibilità vibrazionali dei colori e la loro possibile applicazione nei trattamenti personali, per trovare il giusto equilibrio energetico, vibrazionale e chromatico, apportando armonia a corpo, mente, spirito e nei  luoghi di vita o di lavoro. L’Esperienza sensoriale Chromologos si avvale di colori, luci, profumi e musica vibratoria Io-In, **stuoia chromoquantica e cerotti chromoenergy**, per sollecitare attraverso i sensi una profonda interiorizzazione e il rilassamento mentale.
 
 **ELECTRA**
+
 Electra Tech Cosmetics rappresenta una linea cosmetica di alta qualità, pensata per offrire **prodotti professionali innovativi ed efficaci** con soluzioni all’avanguardia. I prodotti combinano ricerca avanzata e tecnologie di ultima generazione, garantendo prestazioni eccellenti e sicurezza in un mix perfetto di sensorialità ed efficacia per prolungare e mantenere i risultati ottenuti con i trattamenti professionali. Detergenti, sieri, creme, perfetti alleati per la qualsiasi prodotto sia necessario **per la beauty routine a casa**.
 
 ![](5.jpg)
@@ -54,6 +57,7 @@ Electra Tech Cosmetics rappresenta una linea cosmetica di alta qualità, pensata
 **Eye Patch C-Touch** è una maschera occhi in pura biocellulosa per ridurre rughe, borse e occhiaie, dall’azione lifting immediata. Grazie alla forma a “C” che la caratterizza, questa maschera aderisce perfettamente al contorno occhi e non copre solo la parte inferiore dell’occhio, ma anche la palpebra mobile, veicolando in modo ottimale gli ingredienti funzionali contenuti nel fluido di cui è imbibita. Il trasferimento degli attivi presenti è molto rapido e prosegue per tutto il tempo di posa. Contiene Carnosina e Glucosyl Hesperdin.
 
 **JMF**
+
 I Dermocosmetici JMF, 100% Made in Italy, nascono **direttamente nel laboratorio aziendale**. Questo significa poter scegliere le materie prime, poter garantire un prodotto sempre fresco e poterne seguire tutte le fasi, dalla formulazione al confezionamento. Nella formulazione vengono rispettate le vere percentuali per ottenere la miglior efficacia del risultato e questo è ciò che fa la differenza. I peeling chimici (viso e corpo) si trovano solo nei migliori istituti, mentre altre linee sono disponibili per l’acquisto per continuare la beauty routine anche a casa.
 
 ![](6.jpg)
@@ -61,6 +65,7 @@ I Dermocosmetici JMF, 100% Made in Italy, nascono **direttamente nel laboratorio
 **Vita.C Complex**  è un Kit Vitamin C | AE+PP, un complesso multivitaminico antiossidante e lenitivo che contiene: **Vitamina C**: illuminante, schiarente, antiossidante, normalizzante la pigmentazione; **Vitamina E**: antiossidante, lenitiva; **Complesso di Ceramidi**: componenti base della barriera cutanea epidermica, aiutano a mantenere l’idratazione della pelle; **Insaponificabile di olio di Oliva**: antiossidante, idratante, lenitivo, nutriente.
 
 **MEI DEI**
+
 Secondo Mei Dei, la pelle non vuole più essere sovraccaricata di prodotti che non servono. Non richiede filtri o perfezione. A volte ci comunica il suo stato di malessere con **macchie, arrossamenti, secchezze e inestetismi** della pelle visibili ad occhi. E come rispondiamo a questa chiamata di aiuto della pelle? Con metodo e pochi gesti chiari e semplici, con ingredienti attivi pensati per gli inestetismi più diffusi e con formule che sono pensate per essere modulate e combinate per trovare il miglior trattamento da proporre alle clienti.
 
 ![](7.jpg)
@@ -68,6 +73,7 @@ Secondo Mei Dei, la pelle non vuole più essere sovraccaricata di prodotti che n
 La Linea **Gentle Touch** nasce per tutte quelle pelli sensibili e delicate che hanno bisogno di una particolare attenzione. Gli ingredienti attivi inseriti al suo interno hanno forti **proprietà antinfiammatorie e lenitive** che agiscono in profondità grazie alla presenza di **cellule niosomali** che permettono di arrivare in profondità. Un tocco delicato, per tutte quelle pelli che soffrono di iperreattività con screpolature, arrossamento, couperose ed eczemi e che hanno bisogno di essere trattate con prodotti non aggressivi. 
 
 **REVIDERM**
+
 Unisce l’innovazione della **ricerca sui principi attivi** con le conoscenze della **moderna dermatologia**. Il fenomeno della cicatrizzazione e le similitudini con i processi di rigenerazione naturale della pelle hanno fornito spunti di ispirazione per percorrere nuove strade. Con successo. Prodotti per trattamenti estetici strumentali e preparatori, tutti di “qualità made in Germany”, sviluppati e realizzati in stretta collaborazione con scienziati e ricercatori. Leader di mercato a livello internazionale nel campo della skinpeeling.
 
 ![](8.jpg)
@@ -75,6 +81,7 @@ Unisce l’innovazione della **ricerca sui principi attivi** con le conoscenze d
 **Hyaluron hydro balance HD**, ad intenso effetto idratante e rimpolpante, e **ECM repair cream**, crema rigenerante 24-ore fanno parte della linea **Skincare – skintelligence**. Formule preziose che ostacolano l'invecchiamento della pelle e donano elasticità, freschezza e lucentezza alla pelle invecchiata. La linea combatte in modo precoce e preventivo i primi segni visibili dell'invecchiamento della pelle grazie all'intelligente combinazione di principi attivi
 
 **SHUSA**
+
 Propone una cosmesi professionale e da usare a casa per prolungare il trattamento fatto in istituto. **Tecnologie e cosmesi viso e corpo** sono in sinergia per risultati unici. La linea viso** Diamante Giallo** si distingue da tutte le altre linee perché è ricca di **tutte le vitamine** che servono alla pelle per mantenersi attiva e ricettiva. Le vitamine aumentano la vitalità cellulare ed agiscono su tutti i processi vitali della pelle, potenziando l’effetto di altre linee cosmetiche. Sono  in grado di regolare le delicate reazioni biochimiche cellulari connesse con la cute: rigenerazione dei tessuti, loro nutrizione, elasticità, invecchiamento e protezione nei confronti dei radicali liberi.
 
 ![](9.jpg)
