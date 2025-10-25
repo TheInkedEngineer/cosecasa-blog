@@ -1,7 +1,7 @@
 ---
 title: IBL -  Innovation Beauty Lab 2025
 date: 2025-10-19T00:00:00.000Z
-tags: Beauty e profumi
+tags: Beauty e Profumi
 ---
 
 # IBL -  Innovation Beauty Lab 2025
