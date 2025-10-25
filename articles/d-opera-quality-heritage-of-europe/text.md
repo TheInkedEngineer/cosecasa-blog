@@ -1,10 +1,10 @@
 ---
-title: D’OPERA – QUALITY HERITAGE OF EUROPE
+title: D’Opera – Quality Heritage of Europe
 date: 2025-10-22T00:00:00.000Z
 tags: Food & Beverage
 ---
 
-# D’OPERA – QUALITY HERITAGE OF EUROPE 
+# D’Opera – Quality Heritage of Europe 
 
 >Milano ha ospitato il progetto **D’OPERA – Quality Heritage of Europe**, promosso dal **Consorzio per la Tutela dei Vini Valpolicella** e dal **Consorzio del Parmigiano Reggiano**
 
