@@ -9,6 +9,7 @@ on:
 
 jobs:
   mirror:
+    # run only in the source repo
     if: ${{ github.repository == 'TheInkedEngineer/cosecasa-blog' }}
     runs-on: ubuntu-latest
     steps:
@@ -16,18 +17,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Verify token present
+      - name: Mirror to B
         env:
-          MIRROR_TOKEN: ${{ secrets.MIRROR_TOKEN }}
-        run: |
-          if [ -z "${MIRROR_TOKEN}" ]; then
-            echo "MIRROR_TOKEN is empty or missing"; exit 1
-          fi
-
-      - name: Push --mirror to Bianca's Account
-        env:
-          B_USERNAME: biancabel96
-          MIRROR_TOKEN: ${{ secrets.MIRROR_TOKEN }}
+          MIRROR_TOKEN: ${{ secrets.MIRROR_TOKEN }}   # PAT from account: biancabel96 (Contents: Read & write)
         run: |
           git remote add mirror https://biancabel96:${MIRROR_TOKEN}@github.com/biancabel96/cosecasa-blog.git
           git push --mirror mirror
