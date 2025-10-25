@@ -1,10 +1,10 @@
 ---
-title: IBL -  INNOVATION BEAUTY LAB 2025
+title: IBL -  Innovation Beauty Lab 2025
 date: 2025-10-19T00:00:00.000Z
 tags: Beauty e profumi
 ---
 
-# IBL -  INNOVATION BEAUTY LAB 2025
+# IBL -  Innovation Beauty Lab 2025
 
 >Si è svolto a Milano il **beauty hub esperienziale** dove il futuro dell’estetica prende vita 
 
