@@ -2,7 +2,6 @@
 title: D’Opera – Quality Heritage of Europe
 date: 2025-10-22T00:00:00.000Z
 tags: Food & Beverage
-draft: true
 ---
 
 # D’Opera – Quality Heritage of Europe 
