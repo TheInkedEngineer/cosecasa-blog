@@ -9,7 +9,7 @@ on:
 
 jobs:
   mirror:
-    if: ${{ github.repository == 'TheInkedEngineer/cosecasa-blog' && secrets.MIRROR_TOKEN != '' }}
+    if: ${{ github.repository == 'TheInkedEngineer/cosecasa-blog' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,5 +19,5 @@ jobs:
         env:
           MIRROR_TOKEN: ${{ secrets.MIRROR_TOKEN }}
         run: |
-          git remote add mirror https://x-access-token:${MIRROR_TOKEN}@github.combiancabel96/cosecasa-blog.git
+          git remote add mirror https://x-access-token:${MIRROR_TOKEN}@github.com/biancabel96/cosecasa-blog.git
           git push --mirror mirror
