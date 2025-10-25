@@ -1,0 +1,22 @@
+name: Mirror to Bianca's Account
+
+on:
+  push:
+    branches: ["**"]
+  delete:
+  create:
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Push --mirror to B
+        env:
+          MIRROR_TOKEN: ${{ secrets.MIRROR_TOKEN }}
+        run: |
+          git remote add mirror https://x-access-token:${MIRROR_TOKEN}@github.com/<B1>/<B>.git
+          git push --mirror mirror
