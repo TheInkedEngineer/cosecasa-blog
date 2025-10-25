@@ -14,9 +14,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Push --mirror to B
+      - name: Push --mirror to Bianca's Account
         env:
           MIRROR_TOKEN: ${{ secrets.MIRROR_TOKEN }}
         run: |
-          git remote add mirror https://x-access-token:${MIRROR_TOKEN}@github.com/<B1>/<B>.git
+          git remote add mirror https://x-access-token:${MIRROR_TOKEN}@github.combiancabel96/cosecasa-blog.git
           git push --mirror mirror
